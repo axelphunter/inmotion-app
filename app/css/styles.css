@@ -1,0 +1,426 @@
+@font-face {
+    font-family: "ralewaybold";
+    src: url("../fonts/raleway-bold-webfont.eot");
+    src: url("../fonts/raleway-bold-webfont.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/raleway-bold-webfont.woff2") format("woff2"),
+    url("../fonts/raleway-bold-webfont.woff") format("woff"),
+    url("../fonts/raleway-bold-webfont.ttf") format("truetype"),
+    url("../fonts/raleway-bold-webfont.svg#ralewaybold") format("svg");
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: "ralewaymedium";
+    src: url("../fonts/raleway-medium-webfont.eot");
+    src: url("../fonts/raleway-medium-webfont.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/raleway-medium-webfont.woff2") format("woff2"),
+    url("../fonts/raleway-medium-webfont.woff") format("woff"),
+    url("../fonts/raleway-medium-webfont.ttf") format("truetype"),
+    url("../fonts/raleway-medium-webfont.svg#ralewaymedium") format("svg");
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: "ralewayregular";
+    src: url("../fonts/raleway-regular-webfont.eot");
+    src: url("../fonts/raleway-regular-webfont.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/raleway-regular-webfont.woff2") format("woff2"),
+    url("../fonts/raleway-regular-webfont.woff") format("woff"),
+    url("../fonts/raleway-regular-webfont.ttf") format("truetype"),
+    url("../fonts/raleway-regular-webfont.svg#ralewayregular") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+    box-sizing: border-box;
+}
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change "none" to "text" */
+    height:100%;
+    margin: 0;
+    padding: 0;
+    width:100%;
+    font-family: "ralewayregular", "Open Sans", sans-serif;
+    background: #000;
+}
+
+main {
+    opacity:1;
+    transition: opacity 1s;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #ffffff;
+}
+
+main.fade {
+    opacity: 0;
+}
+
+input[type=text], input[type=password], input[type=email], input[type=telephone] {
+    -webkit-appearance: none;
+    border: 0;
+    background: rgba(255, 255, 255, 1);
+    padding: 0.6rem;
+    font-weight: bold;
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 0;
+    width: 100%;
+    color: #000;
+    font-family: "ralewayregular", "Open Sans", sans-serif;
+}
+
+h1 {
+    font-family: "ralewaybold", "Open Sans", sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-family: "ralewaybold", "Open Sans", sans-serif;
+    text-align: left;
+    font-size: 1rem;
+    line-height: 1.2rem;
+    letter-spacing: 0.05rem;
+    margin-bottom: 1rem;
+}
+
+.popupOverlay {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.5);
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.popupOverlay div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    background: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+.popupOverlay img {
+    width: 20%;
+    margin-bottom: 1rem;
+}
+
+.popupOverlay p {
+    text-align: inherit;
+}
+
+.popupOverlay .btn {
+    background: #1777cb;
+    margin-bottom: 0;
+}
+
+.center-icon {
+    width: 25%;
+    margin: 2rem auto;
+}
+
+.btn {
+    -webkit-appearance: none;
+    border: 0;
+    background: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+    padding: 0.7rem;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 0;
+}
+
+.btn.btn-light.active {
+    background: rgba(255,255,255,0.5);
+}
+
+.btn.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.btn-wrapper .btn {
+    width: calc(49% - 0.25rem);
+}
+
+.btn-wrapper .btn:first-child {
+    margin: 0 0.25rem 0 0;
+}
+
+.btn-wrapper .btn:last-child {
+    margin: 0 0 0 0.25rem;
+}
+
+.btn.btn-primary {
+    background: #1777cb;
+}
+
+.btn.btn-facebook {
+    background: #3b5998;
+}
+
+.btn.btn-twitter {
+    background: #55acee;
+}
+
+.btn.btn-google-plus, .btn.btn-cancel {
+    background: #bb0000;
+}
+
+.skip {
+    position: absolute;
+    color: #fff;
+    bottom: 1rem;
+    right: 1rem;
+}
+
+.back {
+    position: absolute;
+    color: #fff;
+    bottom: 1rem;
+    left: 1rem;
+}
+
+form {
+    padding: 2rem 0;
+}
+
+#verify {
+    padding-top: 20% !important;
+}
+
+#verify a {
+    display: block;
+    font-family: ralewaybold, Open Sans, sans-serif;
+    text-decoration: underline;
+}
+
+#welcome, #skip, #signIn, #signUp, #verify {
+    color: #fff;
+    background: url("../img/bg-img.jpg") center/cover no-repeat;
+    text-align: center;
+    padding: 1rem;
+}
+
+#skip h1 {
+    margin-top: 20%;
+}
+
+#welcome .logo, #signIn .logo {
+    width: 50%;
+    margin: 5rem 0 auto;
+}
+
+#signUp h1 {
+    margin-top: 2rem;
+}
+
+#signUp .logo {
+    width: 50%;
+    margin: 0 auto;
+}
+
+#signUp form {
+    margin-top: 2rem;
+}
+
+#signIn form {
+    margin-top: 2rem;
+}
+
+#welcome .btn-wrapper {
+    margin-top: 2rem;
+}
+
+#welcome .absolute-bottom, #signIn .absolute-bottom, #signUp .absolute-bottom {
+    position: absolute;
+    bottom: 4rem;
+    left: 1rem;
+    right: 1rem;
+    text-align: center;
+}
+
+#signUp label[for=phonenumber]:before {
+    content: 'GB(+44)';
+    display: block;
+    color: #000;
+    position: absolute;
+    margin: 1.1rem 0.5rem;
+    font-family: "ralewaymedium", "Open Sans", sans-serif;
+}
+
+#phonenumber {
+    padding-left: 4.5rem;
+}
+
+header {
+    height: 70px;
+    position: fixed;
+    background: #fff;
+    top: 0;
+    right: 0;
+    left: 0;
+    border-bottom: 1px solid #ccc;
+}
+
+header div[data-action=opensidemenu] {
+    width: 20%;
+    height: 100%;
+    border-right: 1px solid #cccccc;
+    background: url('../img/icons/settings-icon.svg') center/50% no-repeat;
+    display: inline-block;
+}
+
+header .logo {
+    display: inline-block;
+    background: url('../img/logo-dark.png') center/50% no-repeat;
+    height: 100%;
+    width: 60%;
+}
+
+header div[data-action=index] {
+    width: 20%;
+    height: 100%;
+    border-left: 1px solid #cccccc;
+    background: url('../img/icons/search-icon.svg') center/40% no-repeat;
+    display: inline-block;
+}
+
+section.search {
+    margin-top: 70px;
+    height: 110px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    background: #fff;
+    padding: 1rem;
+    border-bottom: 1px solid #ccc;
+}
+
+section.search p {
+    text-align: center;
+    margin-bottom: 0.5rem
+}
+
+section.search .searchIcon {
+    width: 10%;
+    display: inline-block;
+    background: url('../img/icons/search-icon.svg') center/50% no-repeat;
+    height: 50px;
+    vertical-align: middle;
+}
+
+section.search #searchInput {
+    width: 70%;
+    padding-bottom: 0.6rem;
+    padding-top: 0;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 25px;
+    margin: 0 5%;
+    border-bottom: 3px solid #1777cb;
+}
+
+section.search #searchInput::-webkit-input-placeholder {
+    color: #000000;
+    font-size: 15px;
+    vertical-align: bottom;
+    line-height: 2;
+}
+
+section.search #searchInput:-moz-placeholder { /* Firefox 18- */
+    color: #000000;
+    font-size: 15px;
+    vertical-align: bottom;
+    line-height: 2;
+}
+
+section.search #searchInput::-moz-placeholder {  /* Firefox 19+ */
+    color: #000000;
+    font-size: 15px;
+    vertical-align: bottom;
+    line-height: 2;
+}
+
+section.search #searchInput:-ms-input-placeholder {
+    color: #000000;
+    font-size: 15px;
+    vertical-align: bottom;
+    line-height: 2;
+}
+
+section a[data-action=clearsearchinput] {
+    width: 10%;
+    height: 50px;
+    background: url('../img/icons/cancel-icon.svg') center/40% no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.search-results {
+    padding: 0 0 0 1rem;
+    margin-top: calc(170px + 1rem);
+}
+
+.search-results li {
+    border-bottom: 1px solid #ccc;
+    padding: 1rem 0;
+}
+
+.search-results li h1 {
+    margin-bottom: 0.5rem;
+}
+
+.search-results li p {
+    margin-bottom: 0;
+}
+
+#app {
+    overflow-x: scroll;
+}
+
+#showLocation, #map {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#showLocation #map {
+    position: relative;
+}
+
+#showLocation .btn-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem
+}
+
+#showLocation .btn-wrapper .btn {
+    width: 100%;
+    margin: .5rem 0 !important;
+}
+
