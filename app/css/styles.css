@@ -424,3 +424,11 @@ section a[data-action=clearsearchinput] {
     margin: .5rem 0 !important;
 }
 
+#showLocation #map h1 {
+    margin-bottom: 0.5rem
+}
+
+#showLocation #map p {
+    margin-bottom: 0;
+}
+
