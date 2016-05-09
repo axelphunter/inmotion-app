@@ -68,7 +68,7 @@ main.fade {
     opacity: 0;
 }
 
-input[type=text], input[type=password], input[type=email], input[type=telephone] {
+input[type=text], input[type=password], input[type=tel], input[type=email], input[type=telephone] {
     -webkit-appearance: none;
     border: 0;
     background: rgba(255, 255, 255, 1);
@@ -95,6 +95,25 @@ p {
     line-height: 1.2rem;
     letter-spacing: 0.05rem;
     margin-bottom: 1rem;
+}
+
+.loader {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    background: #fff;
+    z-index: 9999999999999;
+}
+
+.loader img {
+    margin-top: 30%;
+}
+
+.loader h1 {
+    margin-top: 1rem;
 }
 
 .popupOverlay {
@@ -398,6 +417,7 @@ section a[data-action=clearsearchinput] {
 
 #app {
     overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 
 #showLocation, #map {
@@ -432,3 +452,106 @@ section a[data-action=clearsearchinput] {
     margin-bottom: 0;
 }
 
+#results {
+    background: #ccc;
+}
+
+#results .route-results {
+    margin-top: 70px;
+    padding: .5rem;
+    height: calc(100% - 70px);
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+#results .route-results li {
+    background: #fff;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+#results .route-results li:after {
+    content: '';
+    width: 1.5rem;
+    height: 1.5rem;
+    display: block;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: url('../img/icons/blue-arrow-right.svg') center/contain no-repeat;
+}
+
+#results .route-results li div {
+    width: 50%;
+    display: inline-block;
+}
+
+#results .route-results li h1:first-child:before {
+    content: '';
+    width: 1.5rem;
+    height: 1.5rem;
+    vertical-align: middle;
+    display: inline-block;
+    background: url('../img/icons/clock-icon.svg') center/contain no-repeat;
+    margin-right: 0.5rem;
+}
+
+#results .route-results li div h1 {
+    margin-bottom: 0;
+}
+
+#results .route-results.route-parts li:after {
+    display: none;
+}
+
+#results .route-results.route-parts li h1 {
+    font-size: 1.2rem;
+}
+
+#results .route-results.route-parts li h1:first-child {
+    text-transform: capitalize;
+}
+
+#results .route-results.route-parts li h1:first-child:before {
+    width: 3rem;
+    height: 2rem;
+    margin-right: 0.5rem;
+}
+
+#results .route-results.route-parts li h1:first-child[data-type='foot']:before {
+    background: url(../img/icons/foot.svg) center/contain no-repeat;
+}
+
+#results .route-results.route-parts li h1:first-child[data-type='bus']:before {
+    background: url(../img/icons/bus.svg) center/contain no-repeat;
+}
+
+#results .route-results.route-parts li h1:first-child[data-type='train']:before {
+    background: url(../img/icons/train.svg) center/contain no-repeat;
+}
+
+#results .route-results.route-parts li h1:first-child[data-type='tube']:before {
+    background: url(../img/icons/tube.svg) center/contain no-repeat;
+}
+
+#results .route-results.route-parts li div {
+    margin-bottom: 0.5rem;
+    vertical-align: top;
+}
+
+#results .route-results.route-parts li div:nth-child(2n+2) {
+    width: 30%;
+    text-align: right;
+}
+
+#results .route-results.route-parts li div:nth-child(2n+1) {
+    width: 70%;
+}
+
+#results .route-results.route-parts li p {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+}

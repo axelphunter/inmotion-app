@@ -1,5 +1,5 @@
 Handlebars.registerPartial("header", Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<header><div data-action=\"opensidemenu\"></div><div class=\"logo\"></div><div data-action=\"index\"></div></header>";
+    return "<header><div data-action=\"opensidemenu\"></div><div class=\"logo\"></div><div data-action=\"index\"></div></header>\n";
 },"useData":true}));
 this["MyApp"] = this["MyApp"] || {};
 this["MyApp"]["templates"] = this["MyApp"]["templates"] || {};
@@ -25,12 +25,18 @@ Handlebars.registerPartial("notifiers", Handlebars.template({"1":function(depth0
 
   return ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.messages : depth0),{"name":"if","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "");
 },"useData":true}));
-this["MyApp"]["templates"]["signUp"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<h1>Welcome to</h1>\n<img src=\"img/logo-light.png\" class=\"logo\"/>\n<form data-action=\"validate\">\n    <label for=\"phonenumber\">\n        <input type=\"text\" name=\"telephone\" id=\"phonenumber\" placeholder=\"Phone number\"/>\n    </label>\n    <p>Enter your phone number to create a secure account.</p>\n    <input type=\"submit\" value=\"Next\" class=\"btn btn-light btn-block\"/>\n</form>\n<p class=\"absolute-bottom\" data-action=\"welcome\">Already have an account?</p>\n<p class=\"skip\" data-action=\"skip\">Skip ></p>";
-},"useData":true});
+this["MyApp"]["templates"]["results"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    var stack1;
+
+  return ((stack1 = this.invokePartial(partials.header,depth0,{"name":"header","data":data,"helpers":helpers,"partials":partials})) != null ? stack1 : "")
+    + "<ul class=\"route-results\" id=\"routeResults\"></ul>\n";
+},"usePartial":true,"useData":true});
 Handlebars.registerPartial("search", Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<section class=\"search\">\n    <p>Where are you going?</p>\n    <div class=\"searchIcon\"></div><input type=\"text\" id=\"searchInput\" placeholder=\"Search by street address\"/><a data-action=\"clearsearchinput\"></a>\n</section>";
+    return "<section class=\"search\">\n    <p>Where are you going?</p>\n    <div class=\"searchIcon\"></div><input type=\"text\" id=\"searchInput\" placeholder=\"Search by street address\"/><a id=\"clearsearchinput\"></a>\n</section>\n";
 },"useData":true}));
+this["MyApp"]["templates"]["signUp"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    return "<h1>Welcome to</h1>\n<img src=\"img/logo-light.png\" class=\"logo\"/>\n<form data-action=\"validate\">\n    <label for=\"phonenumber\">\n        <input type=\"tel\" name=\"telephone\" id=\"phonenumber\" placeholder=\"Phone number\"/>\n    </label>\n    <p>Enter your phone number to create a secure account.</p>\n    <input type=\"submit\" value=\"Next\" class=\"btn btn-light btn-block\"/>\n</form>\n<p class=\"absolute-bottom\" data-action=\"welcome\">Already have an account?</p>\n<p class=\"skip\" data-action=\"skip\">Skip ></p>";
+},"useData":true});
 this["MyApp"]["templates"]["skip"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     return "<h1>Are you sure?</h1>\n<p>By signing up, you are creating a unique and secure ID. Plus you will gain access to extra unique features and benefits.</p>\n<img class=\"center-icon\" src=\"img/icons/chat-heart.svg\"/>\n<button class=\"btn btn-light btn-block\" data-action=\"signUp\">Back</button>\n<a class=\"skip\" data-action=\"registerguest\">Skip anyway ></a>";
 },"useData":true});

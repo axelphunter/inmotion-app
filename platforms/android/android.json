@@ -27,6 +27,10 @@
                         {
                             "xml": "<feature name=\"NativeSettings\"><param name=\"android-package\" value=\"com.phonegap.plugins.nativesettings.NativeSettings\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -61,6 +65,9 @@
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
         "com.phonegap.plugins.nativesettingsopener": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         }
     },
@@ -103,6 +110,14 @@
             "clobbers": [
                 "cordova.plugins.settings"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+            "id": "cordova-plugin-inappbrowser.inappbrowser",
+            "clobbers": [
+                "cordova.InAppBrowser.open",
+                "window.open"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -110,6 +125,7 @@
         "cordova-plugin-geolocation": "2.1.0",
         "cordova-plugin-statusbar": "2.1.3",
         "cordova-plugin-splashscreen": "3.2.2",
-        "com.phonegap.plugins.nativesettingsopener": "1.2"
+        "com.phonegap.plugins.nativesettingsopener": "1.2",
+        "cordova-plugin-inappbrowser": "1.4.0"
     }
 }

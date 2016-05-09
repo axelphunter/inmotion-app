@@ -29,6 +29,9 @@
     <feature name="NativeSettings">
         <param name="ios-package" value="NativeSettings" />
     </feature>
+    <feature name="InAppBrowser">
+        <param name="ios-package" value="CDVInAppBrowser" />
+    </feature>
     <name>inmotion</name>
     <description>
         inmotion is a public transport navigation app
@@ -38,6 +41,8 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <allow-navigation href="http://maps.google.com/*" />
+    <allow-navigation href="https://maps.google.com/*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -86,5 +91,5 @@
     <preference name="PaginationMode" value="unpaginated" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarStyle" value="lightcontent" />
-    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="SplashScreenDelay" value="1000" />
 </widget>

@@ -21,6 +21,9 @@
         },
         "com.phonegap.plugins.nativesettingsopener": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.ragnaroksolutions.inmotion"
         }
     },
     "dependent_plugins": {}

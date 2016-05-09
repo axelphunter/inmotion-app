@@ -55,6 +55,15 @@ module.exports = [
         "clobbers": [
             "cordova.plugins.settings"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+        "id": "cordova-plugin-inappbrowser.inappbrowser",
+        "pluginId": "cordova-plugin-inappbrowser",
+        "clobbers": [
+            "cordova.InAppBrowser.open",
+            "window.open"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -64,7 +73,8 @@ module.exports.metadata =
     "cordova-plugin-geolocation": "2.1.0",
     "cordova-plugin-statusbar": "2.1.3",
     "cordova-plugin-splashscreen": "3.2.2",
-    "com.phonegap.plugins.nativesettingsopener": "1.2"
+    "com.phonegap.plugins.nativesettingsopener": "1.2",
+    "cordova-plugin-inappbrowser": "1.4.0"
 }
 // BOTTOM OF METADATA
 });
