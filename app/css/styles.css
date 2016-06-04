@@ -301,27 +301,31 @@ header {
     border-bottom: 1px solid #ccc;
 }
 
-header div[data-action=opensidemenu] {
+header div {
     width: 20%;
     height: 100%;
-    border-right: 1px solid #cccccc;
-    background: url('../img/icons/settings-icon.svg') center/50% no-repeat;
     display: inline-block;
 }
 
-header .logo {
-    display: inline-block;
-    background: url('../img/logo-dark.png') center/50% no-repeat;
-    height: 100%;
-    width: 60%;
+header div[data-action=opensidemenu] {
+    background: url('../img/icons/settings-icon.svg') center/50% no-repeat;
+}
+
+header div.back {
+    background: url('../img/icons/back-icon.svg') center/50% no-repeat;
 }
 
 header div[data-action=index] {
-    width: 20%;
-    height: 100%;
-    border-left: 1px solid #cccccc;
     background: url('../img/icons/search-icon.svg') center/40% no-repeat;
+}
+
+header div.logo {
     display: inline-block;
+    border-left: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    background: url('../img/logo-dark.png') center/50% no-repeat;
+    height: 100%;
+    width: 60%;
 }
 
 section.search {
