@@ -20,6 +20,7 @@
     "hammer-time": "^1.1.0",
     "vanilla-masker": "^1.1.0",
     "moment": "^2.13.0",
-    "ratchet": "^2.0.2"
+    "ratchet": "^2.0.2",
+    "material-design-lite": "^1.1.3"
   }
 }

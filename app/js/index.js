@@ -12,6 +12,7 @@ var app = {
     destinationLat: null,
     destinationLng: null,
     searchQuery: null,
+    route: null,
     token: null,
     loader: null,
     userId: null,
@@ -391,7 +392,15 @@ var app = {
                 });
         },
 
-        resultList: function(searchQuery) {
+        queryResults: function(searchQuery) {
+            app.searchQuery = searchQuery || 'http://transportapi.com/v3/uk/public/journey/from/lonlat:' + app.location.lng + ',' + app.location.lat + '/to/lonlat:' + app.destinationLng + ',' + app.destinationLat + '/at/' + moment().format('YYYY-MM-DD') + '/' + moment().format('HH:mm') + '.json?app_id=' + app.transportId + '&app_key=' + app.transportKey + '&region=southeast';
+            promise.get(app.searchQuery)
+                .then(function(error, results) {
+                    if (!error) {}
+                });
+        }
+
+            resultList: function(searchQuery) {
             if (app.renderView('results', false, null, 'results')) {
                 app.searchQuery = searchQuery || 'http://transportapi.com/v3/uk/public/journey/from/lonlat:' + app.location.lng + ',' + app.location.lat + '/to/lonlat:' + app.destinationLng + ',' + app.destinationLat + '/at/' + moment().format('YYYY-MM-DD') + '/' + moment().format('HH:mm') + '.json?app_id=' + app.transportId + '&app_key=' + app.transportKey + '&region=southeast';
                 promise.get(app.searchQuery)
@@ -412,7 +421,8 @@ var app = {
 
                                 app.evt = new Hammer(li);
                                 app.evt.on("tap", function() {
-                                    app.actions.showRoute(route)
+                                    app.route = route;
+                                    app.actions.showRoute()
                                 });
                             });
                         }
@@ -420,12 +430,17 @@ var app = {
             }
         },
 
-        showRoute: function(route) {
-            if (app.renderView('results', false, null, 'results')) {
+        showRoute: function() {
+            if (app.renderView('results', false, null, 'results') && app.route) {
                 app.showLoader(false);
+                app.evt = new Hammer(document.getElementById('back'));
+                app.evt.on("tap", function() {
+                    app.showLoader(true);
+                    app.actions.resultList();
+                });
                 var routeResults = document.getElementById('routeResults');
                 routeResults.classList.add('route-parts');
-                route.route_parts.forEach(function(part) {
+                app.route.route_parts.forEach(function(part) {
                     var li = helpers.createEl(routeResults, 'li');
                     helpers.createEl(li, 'h1', {
                         'data-type': part.mode
@@ -461,7 +476,9 @@ var app = {
                             break
                     }
                 });
-            };
+            } else {
+                app.actions.resultList();
+            }
         },
 
         signOut: function() {

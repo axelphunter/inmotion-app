@@ -311,7 +311,7 @@ header div[data-action=opensidemenu] {
     background: url('../img/icons/settings-icon.svg') center/50% no-repeat;
 }
 
-header div.back {
+header div#back {
     background: url('../img/icons/back-icon.svg') center/50% no-repeat;
 }
 
