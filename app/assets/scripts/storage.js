@@ -1,19 +1,18 @@
-var storage = {
-	
-	init: function() {
-	},
+const storage = {
+  init() {
 
-	checkAndSet: function(data, table) {
-		if (!localStorage.getItem(table))
-		{
-			storage.setData(table, data);
-		}
-		return JSON.parse(localStorage.getItem(table));
-	},
+  },
 
-	setData: function(table, data) {
-		localStorage.setItem(table, JSON.stringify(data));
-		window.dispatchEvent(storage.event);
-	}
+  checkAndSet(data, table) {
+    if (!localStorage.getItem(table)) {
+      storage.setData(table, data);
+    }
+    return JSON.parse(localStorage.getItem(table));
+  },
+
+  setData(table, data) {
+    localStorage.setItem(table, JSON.stringify(data));
+    window.dispatchEvent(storage.event);
+  }
 
 };
