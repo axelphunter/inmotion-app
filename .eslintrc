@@ -1,0 +1,26 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "es6": true,
+    "mocha": true,
+    "node": true,
+    "browser": true
+  },
+  "globals": {
+    "helpers": 1,
+    "promise": 1,
+    "Pikaday": 1,
+    "dialogPolyfill": 1,
+    "ExcellentExport": 1,
+    "_": 1,
+    "cambridge": 1,
+    "getmdlSelect": 1,
+    "moment": 1,
+    "componentHandler": 1
+  },
+  "rules": {
+    "comma-dangle": ["error", "never"],
+    "new-cap": ["error", {"capIsNewExceptions": ["Router"]}],
+    "max-len": ["error", { "ignoreUrls": true, "code": 100 }]
+  }
+}

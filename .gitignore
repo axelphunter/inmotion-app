@@ -10,3 +10,6 @@
 *.iml
 out
 gen
+
+/app/js/scripts
+/app/css

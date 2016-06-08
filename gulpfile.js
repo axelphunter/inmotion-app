@@ -2,6 +2,7 @@ var gulp = require('gulp'),
 	useref = require('gulp-useref'),
 	uglify = require('gulp-uglify'),
 	cssnano = require('gulp-cssnano'),
+	cleanCSS = require('gulp-clean-css');
 	gulpIf = require('gulp-if'),
 	imagemin = require('gulp-imagemin'),
 	cache = require('gulp-cache'),
@@ -12,6 +13,7 @@ var gulp = require('gulp'),
 	declare = require('gulp-declare'),
 	concat = require('gulp-concat'),
 	shell = require('gulp-shell'),
+	sass = require('gulp-sass'),
 	merge = require('merge-stream'),
 	path = require('path'),
 	cordova = require("cordova-lib").cordova;
@@ -50,7 +52,7 @@ gulp.task('templates', function() {
 	// Output both the partials and the templates as build/js/templates.js
 	return merge(partials, templates)
 		.pipe(concat('templates.js'))
-		.pipe(gulp.dest('app/js/'));
+		.pipe(gulp.dest('app/js/lib/'));
 });
 
 gulp.task('fonts', function() {
@@ -66,8 +68,15 @@ gulp.task('images', function() {
 		.pipe(gulp.dest('www/img'))
 });
 
-gulp.task('watch', ['templates'], function(){
+gulp.task('sass', () => {
+  return gulp.src('app/assets/scss/**/*.scss')
+    .pipe(sass())
+    .pipe(gulp.dest('app/public/css'));
+});
+
+gulp.task('watch', ['templates', 'sass'], function(){
 	gulp.watch('app/views/*.hbs', ['templates']);
+	gulp.watch('app/assets/scss/**/*.scss', ['sass']);
 });
 
 gulp.task('clean:www', function(callback){
@@ -79,7 +88,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('bundle', function (callback) {
-	return runSequence(['templates', 'images', 'fonts'], 'useref',
+	return runSequence(['templates', 'images', 'fonts', 'sass'], 'useref',
 		callback
 	);
 });
@@ -90,26 +99,20 @@ gulp.task('prepare', function (callback) {
 	);
 });
 
-gulp.task('build:android', function (callback) {
-	runSequence('clean', ['bundle'], 'cordovabuild:android',
-		callback
-		);
-});
-
 gulp.task('build:ios', function (callback) {
 	runSequence('clean', ['bundle'], 'cordovabuild:ios',
 		callback
 	);
 });
 
-gulp.task('build:browser', function (callback) {
-	runSequence('clean', ['bundle'], 'cordovabuild:browser',
+gulp.task('build:android', function (callback) {
+	runSequence('clean', ['bundle'], 'cordovabuild:android',
 		callback
-	);
+		);
 });
 
-gulp.task('bamboo', function (callback) {
-	runSequence('clean', 'bundle', 'bamboo:prepare', 'package:browser',
+gulp.task('build:browser', function (callback) {
+	runSequence('clean', ['bundle'], 'cordovabuild:browser',
 		callback
 	);
 });
@@ -122,53 +125,6 @@ gulp.task('cordovabuild:android', shell.task([
 	'cordova build android',
 	'cordova run android'
 ]));
-
-gulp.task('bamboo:prepare', function (callback) {
-	cordova.prepare(callback);
-});
-
-gulp.task('app', function (callback) {
-	runSequence('clean', 'bundle', 'bamboo:prepare', 'package:ios',
-		callback
-	);
-});
-
-gulp.task('apk', function (callback) {
-	runSequence('clean', 'bundle', 'package:android',
-		callback
-	);
-});
-
-gulp.task('package:ios', function (callback) {
-	cordova.build({
-     "platforms": ["ios"],
-     "options": {
-         argv: ["--device"]
-     }
- }, callback);
-});
-
-gulp.task('run:ios', shell.task([
-		'cordova run ios --device'
-]));
-
-gulp.task('package:android', function (callback) {
-	cordova.build({
-     "platforms": ["android"],
-     "options": {
-         argv: ["--release","--gradleArg=--no-daemon"]
-     }
- }, callback);
-});
-
-gulp.task('package:browser', function (callback) {
-    cordova.build({
-        "platforms": ["browser"],
-        "options": {
-            argv: ["--release","--gradleArg=--no-daemon"]
-        }
-    }, callback);
-});
 
 gulp.task('cordovabuild:browser', shell.task([
 	'cordova build browser',
