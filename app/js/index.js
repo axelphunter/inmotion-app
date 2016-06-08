@@ -137,20 +137,16 @@ var app = {
         var el = e.target || e.srcElement,
             action = el.getAttribute("data-action");
         href = el.getAttribute('data-href');
-
         switch (e.type) {
             case 'tap':
                 {
                     if (href) {
                         cordova.InAppBrowser.open(href, '_system');
                     }
-
                     if (el.tagName == "INPUT" && el.getAttribute('type') == "submit" && el.disabled !== true) {
                         helpers.cancelEvent(e);
-
                         action = el.parentElement.getAttribute('data-action');
                     }
-
                     if (action) {
                         if (app.actions[action]) {
                             helpers.cancelEvent(e);
@@ -158,14 +154,12 @@ var app = {
                             app.actions[action].call(el);
                         }
                     }
-
                 }
                 break;
         }
     },
 
     actions: {
-
         index: function() {
             function geoSuccess(position) {
 
@@ -380,7 +374,7 @@ var app = {
                         });
                         helpers.createEl(btnWrapper, 'button', {
                             'class': 'btn btn-block btn-primary',
-                            'data-action': 'resultList'
+                            'data-action': 'queryResults'
                         }, "That's it, let's go!");
                         helpers.createEl(btnWrapper, 'button', {
                             'class': 'btn btn-block btn-cancel',
@@ -396,37 +390,33 @@ var app = {
             app.searchQuery = searchQuery || 'http://transportapi.com/v3/uk/public/journey/from/lonlat:' + app.location.lng + ',' + app.location.lat + '/to/lonlat:' + app.destinationLng + ',' + app.destinationLat + '/at/' + moment().format('YYYY-MM-DD') + '/' + moment().format('HH:mm') + '.json?app_id=' + app.transportId + '&app_key=' + app.transportKey + '&region=southeast';
             promise.get(app.searchQuery)
                 .then(function(error, results) {
-                    if (!error) {}
+                    if (!error) {
+                        app.searchResults = JSON.parse(results);
+                        app.actions.resultList(app.searchResults);
+                    }
                 });
-        }
+        },
 
-            resultList: function(searchQuery) {
+        resultList: function(searchResults) {
+            results = searchResults || app.searchResults
             if (app.renderView('results', false, null, 'results')) {
-                app.searchQuery = searchQuery || 'http://transportapi.com/v3/uk/public/journey/from/lonlat:' + app.location.lng + ',' + app.location.lat + '/to/lonlat:' + app.destinationLng + ',' + app.destinationLat + '/at/' + moment().format('YYYY-MM-DD') + '/' + moment().format('HH:mm') + '.json?app_id=' + app.transportId + '&app_key=' + app.transportKey + '&region=southeast';
-                promise.get(app.searchQuery)
-                    .then(function(error, results) {
-                        if (!error) {
-                            app.showLoader(false);
-                            results = JSON.parse(results);
-                            var routeResults = document.getElementById('routeResults');
-                            results.routes.forEach(function(route) {
-                                var li = helpers.createEl(routeResults, 'li');
-                                helpers.createEl(li, 'h1', null, route.arrival_time);
-                                var departureTime = helpers.createEl(li, 'div');
-                                helpers.createEl(departureTime, 'h4', null, 'Departure Time');
-                                helpers.createEl(departureTime, 'h1', null, route.departure_time);
-                                var duration = helpers.createEl(li, 'div');
-                                helpers.createEl(duration, 'h4', null, 'Duration');
-                                helpers.createEl(duration, 'h1', null, route.duration);
-
-                                app.evt = new Hammer(li);
-                                app.evt.on("tap", function() {
-                                    app.route = route;
-                                    app.actions.showRoute()
-                                });
-                            });
-                        }
-                    })
+                app.showLoader(false);
+                var routeResults = document.getElementById('routeResults');
+                results.routes.forEach(function(route) {
+                    var li = helpers.createEl(routeResults, 'li');
+                    helpers.createEl(li, 'h1', null, route.arrival_time);
+                    var departureTime = helpers.createEl(li, 'div');
+                    helpers.createEl(departureTime, 'h4', null, 'Departure Time');
+                    helpers.createEl(departureTime, 'h1', null, route.departure_time);
+                    var duration = helpers.createEl(li, 'div');
+                    helpers.createEl(duration, 'h4', null, 'Duration');
+                    helpers.createEl(duration, 'h1', null, route.duration);
+                    app.evt = new Hammer(li);
+                    app.evt.on("tap", function() {
+                        app.route = route;
+                        app.actions.showRoute()
+                    });
+                });
             }
         },
 

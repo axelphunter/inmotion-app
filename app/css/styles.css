@@ -8,7 +8,6 @@
     url("../fonts/raleway-bold-webfont.svg#ralewaybold") format("svg");
     font-weight: normal;
     font-style: normal;
-
 }
 
 @font-face {
@@ -82,9 +81,20 @@ input[type=text], input[type=password], input[type=tel], input[type=email], inpu
     font-family: "ralewayregular", "Open Sans", sans-serif;
 }
 
+.mdl-button {
+    width: 100%;
+}
+
 h1 {
     font-family: "ralewaybold", "Open Sans", sans-serif;
     font-size: 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 0;
+}
+
+h4 {
+    margin-top: 0;
+    font-size: 1.2rem;
     margin-bottom: 1rem;
 }
 
@@ -304,6 +314,7 @@ header {
 header div {
     width: 20%;
     height: 100%;
+
     display: inline-block;
 }
 
@@ -311,7 +322,7 @@ header div[data-action=opensidemenu] {
     background: url('../img/icons/settings-icon.svg') center/50% no-repeat;
 }
 
-header div#back {
+header div.back {
     background: url('../img/icons/back-icon.svg') center/50% no-repeat;
 }
 
@@ -319,10 +330,8 @@ header div[data-action=index] {
     background: url('../img/icons/search-icon.svg') center/40% no-repeat;
 }
 
-header div.logo {
+header .logo {
     display: inline-block;
-    border-left: 1px solid #cccccc;
-    border-right: 1px solid #cccccc;
     background: url('../img/logo-dark.png') center/50% no-repeat;
     height: 100%;
     width: 60%;
