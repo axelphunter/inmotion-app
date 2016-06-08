@@ -19,12 +19,12 @@ var gulp = require('gulp'),
 	cordova = require("cordova-lib").cordova;
 
 gulp.task('useref', function(){
-	return gulp.src('app/index.html')
-		.pipe(useref())
-		.pipe(gulpIf('*.css', cssnano()))
-		// .pipe(gulpIf('*.js', uglify()))
-		.pipe(gulp.dest('www'));
-	});
+return gulp.src('app/index.html')
+	.pipe(useref())
+	.pipe(gulpIf('*.css', cssnano()))
+	.pipe(gulpIf('*.js', uglify()))
+	.pipe(gulp.dest('www'));
+});
 
 gulp.task('templates', function() {
 	// Assume all partials start with an underscore
@@ -52,13 +52,13 @@ gulp.task('templates', function() {
 	// Output both the partials and the templates as build/js/templates.js
 	return merge(partials, templates)
 		.pipe(concat('templates.js'))
-		.pipe(gulp.dest('app/js/lib/'));
+		.pipe(gulp.dest('app/js/'));
 });
 
 gulp.task('fonts', function() {
-	return gulp.src('app/fonts/**/*.+(eot|svg|ttf|woff|woff2)')
-		.pipe(gulp.dest('www/fonts'));
-	});
+return gulp.src('app/fonts/**/*.+(eot|svg|ttf|woff|woff2)')
+	.pipe(gulp.dest('www/fonts'));
+});
 
 gulp.task('images', function() {
 	return gulp.src('app/img/**/*.+(png|jpg|jpeg|gif|svg)')
@@ -71,7 +71,7 @@ gulp.task('images', function() {
 gulp.task('sass', () => {
   return gulp.src('app/assets/scss/**/*.scss')
     .pipe(sass())
-    .pipe(gulp.dest('app/public/css'));
+    .pipe(gulp.dest('app/css/'));
 });
 
 gulp.task('watch', ['templates', 'sass'], function(){
@@ -94,25 +94,25 @@ gulp.task('bundle', function (callback) {
 });
 
 gulp.task('prepare', function (callback) {
-	runSequence('clean', ['bundle'],
+	return runSequence('clean', ['bundle'],
 		callback
 	);
 });
 
 gulp.task('build:ios', function (callback) {
-	runSequence('clean', ['bundle'], 'cordovabuild:ios',
+	return runSequence('clean', ['bundle'], 'cordovabuild:ios',
 		callback
 	);
 });
 
 gulp.task('build:android', function (callback) {
-	runSequence('clean', ['bundle'], 'cordovabuild:android',
+	return runSequence('clean', ['bundle'], 'cordovabuild:android',
 		callback
 		);
 });
 
 gulp.task('build:browser', function (callback) {
-	runSequence('clean', ['bundle'], 'cordovabuild:browser',
+	return runSequence('clean', ['bundle'], 'cordovabuild:browser',
 		callback
 	);
 });
