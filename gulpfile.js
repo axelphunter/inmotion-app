@@ -17,6 +17,11 @@ gulp.task('useref', function() {
     .pipe(gulp.dest('www'));
 });
 
+gulp.task('icons', function() {
+  return gulp.src('bower_components/ratchet/dist/fonts/*.+(eot|svg|ttf|woff|woff2)')
+    .pipe(gulp.dest('app/fonts'));
+});
+
 gulp.task('fonts', function() {
   return gulp.src('app/fonts/**/*.+(eot|svg|ttf|woff|woff2)')
     .pipe(gulp.dest('www/fonts'));

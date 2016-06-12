@@ -38,8 +38,14 @@ const app = {
     Handlebars.registerPartial('header', document.getElementById('header-partial')
       .innerHTML);
     Handlebars.registerPartial('notifier', document.getElementById('notifier-partial')
-      .innerHTML)
+      .innerHTML);
     Handlebars.registerPartial('search', document.getElementById('search-partial')
+      .innerHTML);
+    Handlebars.registerPartial('settingsModal', document.getElementById('settings-modal-partial')
+      .innerHTML);
+    Handlebars.registerPartial('profileModal', document.getElementById('profile-modal-partial')
+      .innerHTML);
+    Handlebars.registerPartial('footerNav', document.getElementById('footer-nav-partial')
       .innerHTML);
   },
 
@@ -57,7 +63,7 @@ const app = {
     helpers.createEl(app.loader, 'img', {
       src: 'img/loader.gif'
     });
-    helpers.createEl(app.loader, 'h1', null, 'Coming right up!');
+    helpers.createEl(app.loader, 'h3', null, 'Coming right up!');
     return true;
   },
 
@@ -162,7 +168,7 @@ const app = {
         break;
       default:
         {
-          if (href) {
+          if (href && el.classList.contains('browser')) {
             cordova.InAppBrowser.open(href, '_system');
           }
           if (el.getAttribute('type') === 'submit' && el.disabled !== true) {
@@ -205,10 +211,14 @@ const app = {
                   if (!error) {
                     const results = JSON.parse(res);
                     results.predictions.forEach((val) => {
-                      const li = helpers.createEl(searchResults, 'li');
-                      helpers.createEl(li, 'h1', null, val.description.split(',', 1));
-                      helpers.createEl(li, 'p', null, val.description);
-                      app.evt = new Hammer(li);
+                      const li = helpers.createEl(searchResults, 'li', {
+                        class: 'table-view-cell'
+                      });
+                      const a = helpers.createEl(li, 'a', {
+                        class: 'navigate-right'
+                      }, val.description.split(',', 1));
+                      helpers.createEl(a, 'p', null, val.description);
+                      app.evt = new Hammer(a);
                       app.evt.on('tap', () => {
                         app.actions.showLocation(val.place_id);
                       });
@@ -377,19 +387,30 @@ const app = {
               animation: google.maps.Animation.DROP
             });
             const infowindow = new google.maps.InfoWindow({
-              content: `<h1>${results.result.name}</h1><p>${results.result.formatted_address}</p>`
+              content: `<h3>${results.result.name}</h1><p>${results.result.formatted_address}</p>`
             });
             infowindow.open(map, marker);
+
+            const header = helpers.createEl(app.container, 'header', {
+              class: 'bar bar-nav'
+            });
+            helpers.createEl(header, 'a', {
+              class: 'icon icon-left-nav pull-left',
+              'data-action': 'index'
+            });
+            helpers.createEl(header, 'h1', {
+              class: 'title logo'
+            }, 'INMOTION');
 
             const btnWrapper = helpers.createEl(app.container, 'div', {
               class: 'btn-wrapper'
             });
             helpers.createEl(btnWrapper, 'button', {
-              class: 'btn btn-block btn-primary',
+              class: 'btn btn-positive btn-block',
               'data-action': 'queryResults'
             }, 'Thats it, lets go!');
             helpers.createEl(btnWrapper, 'button', {
-              class: 'btn btn-block btn-cancel',
+              class: 'btn btn-negative btn-block',
               'data-action': 'index'
             }, 'Nope, search again');
           } else {
@@ -411,20 +432,30 @@ const app = {
 
     resultList(searchResults) {
       const results = searchResults || app.searchResults;
-
       if (app.renderView('results', false, null, 'results')) {
+        app.evt = new Hammer(document.querySelector('.icon-left-nav'));
+        app.evt.on('tap', () => {
+          app.actions.index();
+        });
         app.showLoader(false);
         const routeResults = document.getElementById('routeResults');
         results.routes.forEach((route) => {
-          const li = helpers.createEl(routeResults, 'li');
-          helpers.createEl(li, 'h1', null, route.arrival_time);
-          const departureTime = helpers.createEl(li, 'div');
-          helpers.createEl(departureTime, 'h4', null, 'Departure Time');
-          helpers.createEl(departureTime, 'h1', null, route.departure_time);
-          const duration = helpers.createEl(li, 'div');
-          helpers.createEl(duration, 'h4', null, 'Duration');
-          helpers.createEl(duration, 'h1', null, route.duration);
-          app.evt = new Hammer(li);
+          const li = helpers.createEl(routeResults, 'li', {
+            class: 'table-view-cell'
+          });
+          const a = helpers.createEl(li, 'a', {
+            class: 'navigate-right'
+          })
+          const departureTime = helpers.createEl(a, 'div');
+          helpers.createEl(departureTime, 'p', null, 'Departure time');
+          helpers.createEl(departureTime, 'h3', null, route.departure_time);
+          const arrivalTime = helpers.createEl(a, 'div');
+          helpers.createEl(arrivalTime, 'p', null, 'Arrival time');
+          helpers.createEl(arrivalTime, 'h3', null, route.arrival_time);
+          helpers.createEl(a, 'p', null, 'Duration');
+          helpers.createEl(a, 'h3', null, moment.duration(route.duration, 'minutes')
+            .humanize());
+          app.evt = new Hammer(a);
           app.evt.on('tap', () => {
             app.route = route;
             app.actions.showRoute();
@@ -436,36 +467,39 @@ const app = {
     showRoute() {
       if (app.renderView('results', false, null, 'results') && app.route) {
         app.showLoader(false);
-        app.evt = new Hammer(document.getElementById('back'));
+        app.evt = new Hammer(document.querySelector('.icon-left-nav'));
         app.evt.on('tap', () => {
-          app.showLoader(true);
           app.actions.resultList();
         });
         const routeResults = document.getElementById('routeResults');
         routeResults.classList.add('route-parts');
         app.route.route_parts.forEach((part) => {
-          const li = helpers.createEl(routeResults, 'li');
-          helpers.createEl(li, 'h1', {
+          const li = helpers.createEl(routeResults, 'li', {
+            class: 'table-view-cell'
+          });
+          helpers.createEl(li, 'h2', {
             'data-type': part.mode
           }, part.mode);
-          helpers.createEl(li, 'p', null, moment.duration(part.duration, 'minutes')
+          helpers.createEl(li, 'p', {
+              class: 'time'
+            }, moment.duration(part.duration, 'minutes')
             .humanize());
           const departDest = helpers.createEl(li, 'div');
-          helpers.createEl(departDest, 'h4', null, 'From');
-          helpers.createEl(departDest, 'h1', null, part.from_point_name);
+          helpers.createEl(departDest, 'p', null, 'From');
+          helpers.createEl(departDest, 'h4', null, part.from_point_name);
           const departAt = helpers.createEl(li, 'div');
-          helpers.createEl(departAt, 'h4', null, 'Leaving at');
-          helpers.createEl(departAt, 'h1', null, part.departure_time);
+          helpers.createEl(departAt, 'p', null, 'Leaving at');
+          helpers.createEl(departAt, 'h3', null, part.departure_time);
           const arrivalDest = helpers.createEl(li, 'div');
-          helpers.createEl(arrivalDest, 'h4', null, 'to');
-          helpers.createEl(arrivalDest, 'h1', null, part.to_point_name);
+          helpers.createEl(arrivalDest, 'p', null, 'To');
+          helpers.createEl(arrivalDest, 'h4', null, part.to_point_name);
           const arrivalAt = helpers.createEl(li, 'div');
-          helpers.createEl(arrivalAt, 'h4', null, 'Arriving at');
-          helpers.createEl(arrivalAt, 'h1', null, part.arrival_time);
+          helpers.createEl(arrivalAt, 'p', null, 'Arriving at');
+          helpers.createEl(arrivalAt, 'h3', null, part.arrival_time);
           if (part.line_name) {
             const lineName = helpers.createEl(li, 'div');
-            helpers.createEl(lineName, 'h4', null, 'Line name');
-            helpers.createEl(lineName, 'h1', null, part.line_name);
+            helpers.createEl(lineName, 'p', null, 'Line name');
+            helpers.createEl(lineName, 'h4', null, part.line_name);
           }
           switch (part.mode) {
             case 'foot':
@@ -473,7 +507,7 @@ const app = {
                 const fromCoords = part.coordinates[0];
                 const toCoords = part.coordinates[part.coordinates.length - 1];
                 helpers.createEl(li, 'button', {
-                  class: 'btn btn-block btn-primary',
+                  class: 'btn btn-block btn-positive',
                   'data-href': `http://maps.google.com/?saddr=${fromCoords[1]},${fromCoords[0]}&daddr=${toCoords[1]},${toCoords[0]}`
                 }, 'Get directions');
               }

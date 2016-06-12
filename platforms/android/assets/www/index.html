@@ -15,11 +15,83 @@
 
 </head>
 <body>
+  <!-- Handlebars partials -->
+  <!-- Header partial -->
+  <script id="header-partial" type="text/x-handlebars-template">
+    <header><div data-action="opensidemenu"></div><div class="logo"></div><div data-action="index"></div></header>
+  </script>
+  <!-- Notifier partial -->
+  <script id="notifier-partial" type="text/x-handlebars-template">
+    {{#if messages}}
+        <div class="notifiers" >
+            <ul>
+                {{#each messages}}
+                    <li>{{this}}</li>
+                {{/each}}
+            </ul>
+        </div>
+    {{/if}}
+  </script>
+  <!-- Search partial -->
+  <script id="search-partial" type="text/x-handlebars-template">
+    <section class="search">
+        <p>Where are you going?</p>
+        <div class="searchIcon"></div><input type="text" id="searchInput" placeholder="Search by street address"/><a id="clearsearchinput"></a>
+    </section>
+  </script>
 
+  <!-- Handlebars templates -->
+  <!-- index page template -->
+  <script id="index-template" type="text/x-handlebars-template">
+    <header><div></div><div class="logo"></div><div data-action="index"></div></header>
+    {{> search}}
+    <ul class="search-results" id="searchResults"></ul>
+  </script>
+  <!-- Results page template -->
+  <script id="results-template" type="text/x-handlebars-template">
+    <header><div id="back"></div><div class="logo"></div><div data-action="index"></div></header>
+    <ul class="route-results" id="routeResults"></ul>
+  </script>
+  <!-- Signup page template  -->
+  <script id="signup-template" type="text/x-handlebars-template">
+    <h1>Welcome to</h1>
+    <img src="img/logo-light.png" class="logo"/>
+    <form data-action="validate">
+        <label for="phonenumber">
+            <input type="tel" name="telephone" id="phonenumber" placeholder="Phone number"/>
+        </label>
+        <p>Enter your phone number to create a secure account.</p>
+        <input type="submit" value="Next" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
+    </form>
+    <p class="absolute-bottom" data-action="welcome">Already have an account?</p>
+    <p class="skip" data-action="skip">Skip ></p>
+  </script>
+  <!-- Skip page template -->
+  <script id="skip-template" type="text/x-handlebars-template">
+    <h1>Are you sure?</h1>
+    <p>By signing up, you are creating a unique and secure ID. Plus you will gain access to extra unique features and benefits.</p>
+    <img class="center-icon" src="img/icons/chat-heart.svg"/>
+    <button class="btn btn-light btn-block" data-action="signUp">Back</button>
+    <a class="skip" data-action="registerguest">Skip anyway ></a>
+  </script>
+  <!-- verifiy template -->
+  <script id="verify-template" type="text/x-handlebars-template">
+    <p>A verification code has been sent to you by text message.</p>
+    <a data-action="resendValidationCode">Send it again</a>
+    <img class="center-icon" src="img/icons/envelope-icon.svg"/>
+    <form data-action="checkValidation">
+        <label for="verificationCode">
+            <input type="text" name="verificationCode" id="verificationCode" placeholder="Verification Code"/>
+        </label>
+        <input type="submit" value="Next" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
+    </form>
+    <p class="back" data-action="signUp">< Back</p>
+  </script>
 </body>
 <!-- scripts -->
 <script type="text/javascript" src="cordova.js"></script>
 <script src="js/scripts.min.js"></script>
 <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0bLnkIvgDhDA1873tVTn2a0XchJgKEU4&libraries=places" async defer></script>
+
 </html>
