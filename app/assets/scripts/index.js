@@ -11,6 +11,8 @@ const app = {
   destinationLat: null,
   destinationLng: null,
   searchQuery: null,
+  searchHistory: localStorage.getItem('search_history') || '[]',
+  transportPreference: localStorage.getItem('transport_preference') || '["bus", "train", "tube", "boat"]',
   route: null,
   token: null,
   loader: null,
@@ -19,6 +21,19 @@ const app = {
     lat: null,
     lng: null
   },
+  factsList: [
+    'Walking to and from public transport is a great way to incorporate some extra physical activity into your routine.',
+    'Their are nearly 47,000 buses that operate in the UK.',
+    'Buses account for around two-thirds of all public transport journeys in the UK, with 5.2 million journeys a year.',
+    'Catching public transport may also improve your mental health. It’s less stressful than driving, and you can read, listen to music or unwind on your daily commute.',
+    'Catching public transport may be up to four times cheaper than travelling in your car. It can also reduce the cost of buying, maintaining and running additional vehicles.',
+    'Bus, train, ferry and tram travel reduces the reliance on fossil fuel supplies, making public transport at least twice as energy efficient as private cars.',
+    'One full bus can take more than 50 cars off the road—1 full train can take more than 600 cars off the road.',
+    'Cars account for around 55% of all UK domestic transport greenhouse gas emissions',
+    'Buses account for less than 4% of all UK domestic transport greenhouse gas emissions',
+    'Trains account for less than 2% of all UK domestic transport greenhouse gas emissions',
+    'Switching from the car to bus and coach for one in 25 journeys could save 2 million tonnes of CO2'
+  ],
 
   initialize() {
     app.preparePartials();
@@ -50,8 +65,8 @@ const app = {
   },
 
   render() {
-    StatusBar.backgroundColorByName('black');
-    StatusBar.styleLightContent();
+    StatusBar.backgroundColorByHexString('#E71D36');
+    StatusBar.styleBlackTranslucent();
     StatusBar.overlaysWebView(false);
     app.body = document.querySelector('body');
     // container definition
@@ -61,9 +76,10 @@ const app = {
       class: 'loader'
     });
     helpers.createEl(app.loader, 'img', {
-      src: 'img/loader.gif'
+      src: 'img/loader.svg'
     });
     helpers.createEl(app.loader, 'h3', null, 'Coming right up!');
+    helpers.createEl(app.loader, 'p')
     return true;
   },
 
@@ -107,6 +123,7 @@ const app = {
   },
 
   showLoader(status) {
+    app.loader.querySelector('p')[app.textProp] = app.factsList[Math.floor(Math.random() * app.factsList.length) + 0];
     app.loader.style.display = (status) ? 'block' : 'none';
   },
 
@@ -150,6 +167,14 @@ const app = {
         .innerHTML)(model)
       .toDOM(container);
 
+    if (document.getElementById('settingsModal')) {
+      const transportPreference = JSON.parse(app.transportPreference);
+      transportPreference.forEach(function(el) {
+        document.querySelector(`.toggle[data-transport-preference="${el}"]`)
+          .classList.add('active');
+      });
+    }
+
     container.classList.remove('fade');
 
     return true;
@@ -158,7 +183,7 @@ const app = {
   eventDelegate(ev) {
     const e = ev || event;
     const el = e.target || e.srcElement;
-    let action = el.getAttribute('data-action');
+    let action = el.getAttribute('data-action') || el.parentElement.getAttribute('data-action');
     const href = el.getAttribute('data-href');
     switch (e.type) {
       case 'swipe':
@@ -168,19 +193,35 @@ const app = {
         break;
       default:
         {
-          if (href && el.classList.contains('browser')) {
-            cordova.InAppBrowser.open(href, '_system');
-          }
+          console.log(el);
           if (el.getAttribute('type') === 'submit' && el.disabled !== true) {
             helpers.cancelEvent(e);
             action = el.parentElement.getAttribute('data-action');
           }
           if (action) {
             if (app.actions[action]) {
-              helpers.cancelEvent(e);
               app.showLoader(true);
               app.actions[action].call(el);
             }
+          }
+          if (el.getAttribute('data-transport-preference') || el.parentElement.getAttribute('data-transport-preference')) {
+            const preference = el.getAttribute('data-transport-preference') || el.parentElement.getAttribute('data-transport-preference');
+            const status = (el.classList.contains('active') || el.parentElement.classList.contains('active'));
+            let transportPreference = JSON.parse(app.transportPreference);
+            if (!status) {
+              transportPreference.push(preference);
+            } else {
+              const index = transportPreference.indexOf(preference);
+              if (index > -1) {
+                transportPreference.splice(index, 1);
+              }
+            }
+            transportPreference = JSON.stringify(transportPreference);
+            app.transportPreference = transportPreference;
+            localStorage.setItem('transport_preference', app.transportPreference);
+          }
+          if (href && el.classList.contains('browser')) {
+            cordova.InAppBrowser.open(href, '_system');
           }
         }
     }
@@ -202,11 +243,31 @@ const app = {
           app.evt = new Hammer(document.getElementById('clearsearchinput'));
           app.evt.on('tap', () => {
             searchInput.value = '';
+            searchInput.blur();
           });
+
+          let searchHistory = JSON.parse(app.searchHistory);
+          if (searchHistory.length > 0 && searchInput.value.length === 0) {
+            helpers.clearEl(searchResults);
+            searchHistory.forEach((val) => {
+              const li = helpers.createEl(searchResults, 'li', {
+                class: 'table-view-cell'
+              });
+              const a = helpers.createEl(li, 'a', {
+                class: 'navigate-right'
+              }, val.description.split(',', 1));
+              helpers.createEl(a, 'p', null, val.description);
+              app.evt = new Hammer(a);
+              app.evt.on('tap', () => {
+                app.actions.showLocation(val.id);
+              });
+            });
+          }
+
           searchInput.onkeyup = function onkeyup() {
-            if (searchInput.value.length > 2) {
+            if (searchInput.value.length > 1) {
               helpers.clearEl(searchResults);
-              promise.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${searchInput.value}&key=${app.mapsKey}&components=country:gb`)
+              promise.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${this.value}&key=${app.mapsKey}&components=country:gb`)
                 .then((error, res) => {
                   if (!error) {
                     const results = JSON.parse(res);
@@ -220,6 +281,16 @@ const app = {
                       helpers.createEl(a, 'p', null, val.description);
                       app.evt = new Hammer(a);
                       app.evt.on('tap', () => {
+                        const selectedObj = {
+                          id: val.place_id,
+                          description: val.description
+                        };
+                        if (searchHistory.unshift(selectedObj) > 5) {
+                          searchHistory.pop();
+                        }
+                        searchHistory = JSON.stringify(searchHistory);
+                        app.searchHistory = searchHistory;
+                        localStorage.setItem('search_history', app.searchHistory);
                         app.actions.showLocation(val.place_id);
                       });
                     });
@@ -420,7 +491,21 @@ const app = {
     },
 
     queryResults(searchQuery) {
-      app.searchQuery = searchQuery || `http://transportapi.com/v3/uk/public/journey/from/lonlat:${app.location.lng},${app.location.lat}/to/lonlat:${app.destinationLng},${app.destinationLat}/at/${moment().format('YYYY-MM-DD')}/${moment().format('HH:mm')}.json?app_id=${app.transportId}&app_key=${app.transportKey}&region=southeast`;
+      const params = {
+        app_id: app.transportId,
+        app_key: app.transportKey,
+        region: 'southeast',
+        modes: JSON.parse(app.transportPreference)
+          .join('-')
+      };
+      let paramStr = '';
+      for (const key in params) {
+        if (paramStr !== '') {
+          paramStr += '&';
+        }
+        paramStr += `${key}=${encodeURIComponent(params[key])}`;
+      }
+      app.searchQuery = searchQuery || `http://transportapi.com/v3/uk/public/journey/from/lonlat:${app.location.lng},${app.location.lat}/to/lonlat:${app.destinationLng},${app.destinationLat}/at/${moment().format('YYYY-MM-DD')}/${moment().format('HH:mm')}.json?${paramStr}`;
       promise.get(app.searchQuery)
         .then((error, results) => {
           if (!error) {
@@ -507,7 +592,7 @@ const app = {
                 const fromCoords = part.coordinates[0];
                 const toCoords = part.coordinates[part.coordinates.length - 1];
                 helpers.createEl(li, 'button', {
-                  class: 'btn btn-block btn-positive',
+                  class: 'btn btn-block btn-positive browser',
                   'data-href': `http://maps.google.com/?saddr=${fromCoords[1]},${fromCoords[0]}&daddr=${toCoords[1]},${toCoords[0]}`
                 }, 'Get directions');
               }
@@ -631,3 +716,4 @@ const app = {
 };
 
 app.initialize();
+tialize();

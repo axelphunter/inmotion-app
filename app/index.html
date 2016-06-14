@@ -62,26 +62,26 @@
               Transport preferences
           </li>
           <li class="table-view-cell">
-            Avoid busses
-            <div class="toggle">
+            Bus
+            <div class="toggle" data-transport-preference="bus">
               <div class="toggle-handle"></div>
             </div>
           </li>
           <li class="table-view-cell">
-            Avoid trains
-            <div class="toggle active">
+            Train
+            <div class="toggle" data-transport-preference="train">
               <div class="toggle-handle"></div>
             </div>
           </li>
           <li class="table-view-cell">
-            Avoid tubes
-            <div class="toggle">
+            Tube
+            <div class="toggle" data-transport-preference="tube">
               <div class="toggle-handle"></div>
             </div>
           </li>
           <li class="table-view-cell">
-            Avoid boats
-            <div class="toggle">
+            Boat
+            <div class="toggle" data-transport-preference="boat">
               <div class="toggle-handle"></div>
             </div>
           </li>
@@ -191,7 +191,7 @@
             <input type="tel" name="telephone" id="phonenumber" placeholder="Phone number"/>
         </label>
         <p>Enter your phone number to create a secure account.</p>
-        <input type="submit" value="Next" class="btn btn-positive btn-block"/>
+        <input type="submit" value="Next" class="btn btn-negative btn-block"/>
     </form>
     <nav class="bar bar-tab">
       <a class="tab-item active" data-action="skip">
@@ -214,7 +214,7 @@
         <label for="verificationCode">
             <input type="text" name="verificationCode" id="verificationCode" placeholder="Verification Code"/>
         </label>
-        <input type="submit" value="Next" class="btn btn-positive btn-block"/>
+        <input type="submit" value="Next" class="btn btn-negative btn-block"/>
         <button class="btn btn-primary btn-block btn-outlined" data-action="resendValidationCode">Re-send Validation Code</button>
     </form>
     <nav class="bar bar-tab">
