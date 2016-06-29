@@ -11,6 +11,7 @@ const app = {
   destinationLat: null,
   destinationLng: null,
   searchQuery: null,
+  networkCount: 0,
   favouriteLocations: localStorage.getItem('favourite_locations') || '[]',
   searchHistory: localStorage.getItem('search_history') || '[]',
   transportPreference: localStorage.getItem('transport_preference') || '["bus", "train", "tube", "boat"]',
@@ -45,9 +46,43 @@ const app = {
     }, 50);
     document.addEventListener('deviceready', () => {
       if (app.render()) {
-        app.onOnline();
+        document.addEventListener('online', app.onOnline, false);
+        document.addEventListener('offline', app.onOffline, false);
+        app.checkConnection();
       }
     }, false);
+  },
+
+  checkConnection() {
+    const networkState = navigator.connection.type;
+    switch (networkState) {
+      case 'unknown':
+        {
+          if (app.networkCount > 4) {
+            app.onOnline();
+            app.networkCount = null;
+            break;
+          }
+          app.networkCount++;
+          window.setTimeout(app.checkConnection, 1000);
+        }
+        break;
+      case 'none':
+        {
+          app.onOffline();
+        }
+        break;
+      default:
+        {
+          app.onOnline();
+        }
+        break;
+    }
+  },
+
+  onOffline() {
+    app.showLoader(false);
+    app.offline.style.display = 'block';
   },
 
   preparePartials() {
@@ -73,6 +108,16 @@ const app = {
     // container definition
     app.container = helpers.createEl(app.body, 'main');
 
+    app.offline = helpers.createEl(app.body, 'div', {
+      class: 'no-connection'
+    });
+    helpers.createEl(app.offline, 'img', {
+      src: 'img/icons/no-connection.svg'
+    });
+    helpers.createEl(app.offline, 'h3', null, 'Oops, connection lost!');
+    helpers.createEl(app.offline, 'p', null, 'Please wait while we try to re-connect you...');
+    app.offline.style.display = 'none';
+
     app.loader = helpers.createEl(app.body, 'div', {
       class: 'loader'
     });
@@ -80,11 +125,14 @@ const app = {
       src: 'img/loader.svg'
     });
     helpers.createEl(app.loader, 'h3', null, 'Coming right up!');
-    helpers.createEl(app.loader, 'p')
+    helpers.createEl(app.loader, 'p');
+
     return true;
   },
 
   onOnline() {
+    app.loader.style.display = 'block';
+    app.offline.style.display = 'none';
     storage.init();
 
     if (!localStorage.getItem('has_run')) {
@@ -134,7 +182,7 @@ const app = {
     }
   },
 
-  popUp(title, text, icon, buttonText) {
+  popUp(title, text, icon, buttonText, action) {
     const btnText = buttonText || 'Continue';
     const popup = helpers.createEl(app.body, 'div', {
       class: 'popupOverlay'
@@ -149,13 +197,16 @@ const app = {
       });
     }
     if (text) {
-      helpers.createEl(popupWrapper, 'p', null, text);
+      helpers.createEl(popupWrapper, 'div', null, null, text);
     }
     const btn = helpers.createEl(popupWrapper, 'button', {
-      class: 'btn btn-primary btn-block'
+      class: 'btn btn-negative btn-block'
     }, btnText);
     new Hammer(btn)
       .on('tap', () => {
+        if (action === 'open-settings') {
+          app.actions.noLocation();
+        }
         app.body.removeChild(popup);
       });
   },
@@ -258,15 +309,13 @@ const app = {
     },
 
     noLocation() {
-      if (app.renderView('signup', false, null, 'signup')) {
-        if (typeof cordova.plugins.settings.openSetting !== undefined) {
-          cordova.plugins.settings.open(() => {
-              console.log('opened settings');
-            },
-            () => {
-              console.log('failed to open settings');
-            });
-        }
+      if (typeof cordova.plugins.settings.openSetting !== undefined) {
+        cordova.plugins.settings.open(() => {
+            console.log('opened settings');
+          },
+          () => {
+            console.log('failed to open settings');
+          });
       }
     },
 
@@ -355,7 +404,13 @@ const app = {
       }
 
       function geoError(error) {
-        // TODO handle feo error
+        CheckGPS.check(() => {
+            console.log('something wrong with GPS');
+          },
+          () => {
+            app.showLoader(false);
+            app.popUp(null, '<p>INMOTION relies on using your location to show you great routes to your destination. In order to do this we ask for permission to use your location services.</p><ol><li data-type="settings">1. Go to settings.</li><li data-type="privacy">2. Tap Privacy.</li><li data-type="location-services">3. Tap Location Services.</li><li data-type="turn-on">4. Set inmotion to On.</li></ol>', null, 'Got it', 'open-settings');
+          });
       }
       navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
         timeout: 2000,

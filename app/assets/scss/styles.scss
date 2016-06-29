@@ -178,7 +178,7 @@ header.bar {
   }
 }
 
-.loader {
+.loader, .no-connection {
   background: $primary-colour;
   bottom: 0;
   color: $white;
@@ -207,14 +207,16 @@ header.bar {
 }
 
 .popupOverlay {
-  background: rgba(0, 0, 0, .5);
+  background: $primary-colour;
+  border-radius: 3px;
   bottom: 0;
   left: 0;
   position: fixed;
   right: 0;
   top: 0;
+  z-index: 999999999999999;
 
-  div {
+  & > div {
     background: $white;
     left: 50%;
     padding: 1rem;
@@ -223,6 +225,45 @@ header.bar {
     top: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
+  }
+
+  ol {
+    margin-top: 0;
+    font-size: 14px;
+    color: #8f8f94;
+    text-align: left;
+    padding-left: 0;
+    margin-left: 0;
+    list-style: none;
+
+    li {
+      margin-bottom: 10px;
+
+      &:before {
+        content: '';
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+
+      &[data-type='settings']::before {
+        background: url('../img/settings-icon.png') center / contain no-repeat;
+      }
+
+      &[data-type='privacy']::before {
+        background: url('../img/privacy-icon.png') center / contain no-repeat;
+      }
+
+      &[data-type='location-services']::before {
+        background: url('../img/location-services-icon.png') center / contain no-repeat;
+      }
+
+      &[data-type='turn-on']::before {
+        background: url('../img/on-icon.png') center / contain no-repeat;
+      }
+    }
   }
 
   img {

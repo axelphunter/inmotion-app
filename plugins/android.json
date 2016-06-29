@@ -24,6 +24,12 @@
         },
         "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.ragnaroksolutions.inmotion"
+        },
+        "cordova-plugin-fastrde-checkgps": {
+            "PACKAGE_NAME": "com.ragnaroksolutions.inmotion"
         }
     },
     "dependent_plugins": {}

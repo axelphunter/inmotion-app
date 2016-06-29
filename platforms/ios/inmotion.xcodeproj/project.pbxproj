@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0207DA571B56EA530066E2B4 /* Images.xcassets */; };
 		0820201F252048E9A12FA3BC /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 26B9260B479D498F8329FB8D /* CDVViewController+SplashScreen.m */; };
@@ -20,6 +19,11 @@
 		5F2BDE72C0264B6A9D371DA7 /* NativeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = FF454C2D1ABE47FDBC7713A8 /* NativeSettings.m */; };
 		CE409FD1F2E142D8B7AC1459 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46D5C3C1CF124C8A877C6302 /* CoreLocation.framework */; };
 		D8F0B89C18F54C8F9813FB84 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E42DA129F74ED299141E15 /* CDVInAppBrowser.m */; };
+		1C59214F81004966838EC843 /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4826A2CB1C4ED884063678 /* CDVConnection.m */; };
+		4DD813E072454CF9A3D0377E /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = A22A2F82B71C44C88558281B /* CDVReachability.m */; };
+		1422D15490F54034B96A723F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B854ED5F264649D6B1D22B66 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		78DB28082D4248D3808C08E2 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5B0FE00A904C3380E495CE /* CoreTelephony.framework */; };
+		64926233D23647838F9EB60A /* CDVCheckGPS.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A8CEBBE6B04E9896777703 /* CDVCheckGPS.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +76,14 @@
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = inmotion/config.xml; sourceTree = "<group>"; };
 		FF454C2D1ABE47FDBC7713A8 /* NativeSettings.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = NativeSettings.m; path = com.phonegap.plugins.nativesettingsopener/NativeSettings.m; sourceTree = "<group>"; };
+		CB4826A2CB1C4ED884063678 /* CDVConnection.m */ = {isa = PBXFileReference; name = "CDVConnection.m"; path = "cordova-plugin-network-information/CDVConnection.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		A22A2F82B71C44C88558281B /* CDVReachability.m */ = {isa = PBXFileReference; name = "CDVReachability.m"; path = "cordova-plugin-network-information/CDVReachability.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		634501DA2A5A4E0BBB5B79FD /* CDVConnection.h */ = {isa = PBXFileReference; name = "CDVConnection.h"; path = "cordova-plugin-network-information/CDVConnection.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		448BA6B267E0490EA44E5D7B /* CDVReachability.h */ = {isa = PBXFileReference; name = "CDVReachability.h"; path = "cordova-plugin-network-information/CDVReachability.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		B854ED5F264649D6B1D22B66 /* SystemConfiguration.framework */ = {isa = PBXFileReference; name = "SystemConfiguration.framework"; path = "System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		3E5B0FE00A904C3380E495CE /* CoreTelephony.framework */ = {isa = PBXFileReference; name = "CoreTelephony.framework"; path = "System/Library/Frameworks/CoreTelephony.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		88A8CEBBE6B04E9896777703 /* CDVCheckGPS.m */ = {isa = PBXFileReference; name = "CDVCheckGPS.m"; path = "cordova-plugin-fastrde-checkgps/CDVCheckGPS.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		460149170DE54B8E9AA5033D /* CDVCheckGPS.h */ = {isa = PBXFileReference; name = "CDVCheckGPS.h"; path = "cordova-plugin-fastrde-checkgps/CDVCheckGPS.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +93,8 @@
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				CE409FD1F2E142D8B7AC1459 /* CoreLocation.framework in Frameworks */,
+				1422D15490F54034B96A723F /* SystemConfiguration.framework in Frameworks */,
+				78DB28082D4248D3808C08E2 /* CoreTelephony.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +165,8 @@
 			isa = PBXGroup;
 			children = (
 				46D5C3C1CF124C8A877C6302 /* CoreLocation.framework */,
+				B854ED5F264649D6B1D22B66 /* SystemConfiguration.framework */,
+				3E5B0FE00A904C3380E495CE /* CoreTelephony.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -188,6 +204,12 @@
 				A5B02EBB38274A63B2021DEC /* NativeSettings.h */,
 				07E42DA129F74ED299141E15 /* CDVInAppBrowser.m */,
 				C93F64BEBE794874BA8CAD0F /* CDVInAppBrowser.h */,
+				CB4826A2CB1C4ED884063678 /* CDVConnection.m */,
+				A22A2F82B71C44C88558281B /* CDVReachability.m */,
+				634501DA2A5A4E0BBB5B79FD /* CDVConnection.h */,
+				448BA6B267E0490EA44E5D7B /* CDVReachability.h */,
+				88A8CEBBE6B04E9896777703 /* CDVCheckGPS.m */,
+				460149170DE54B8E9AA5033D /* CDVCheckGPS.h */,
 			);
 			name = Plugins;
 			path = inmotion/Plugins;
@@ -230,7 +252,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 730;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = U857B82DYS;
@@ -313,6 +335,9 @@
 				0820201F252048E9A12FA3BC /* CDVViewController+SplashScreen.m in Sources */,
 				5F2BDE72C0264B6A9D371DA7 /* NativeSettings.m in Sources */,
 				D8F0B89C18F54C8F9813FB84 /* CDVInAppBrowser.m in Sources */,
+				1C59214F81004966838EC843 /* CDVConnection.m in Sources */,
+				4DD813E072454CF9A3D0377E /* CDVReachability.m in Sources */,
+				64926233D23647838F9EB60A /* CDVCheckGPS.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

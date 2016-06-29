@@ -22,6 +22,12 @@
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="CheckGPS">
+        <param name="android-package" value="de.fastr.phonegap.plugins.CheckGPS" />
+    </feature>
     <allow-intent href="market:*" />
     <splash density="land-hdpi" src="res/screen/android/splash-land-hdpi.png" />
     <splash density="land-ldpi" src="res/screen/android/splash-land-ldpi.png" />

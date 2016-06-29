@@ -45,6 +45,28 @@ module.exports = [
             "cordova.InAppBrowser.open",
             "window.open"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-network-information/www/network.js",
+        "id": "cordova-plugin-network-information.network",
+        "clobbers": [
+            "navigator.connection",
+            "navigator.network.connection"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-network-information/www/Connection.js",
+        "id": "cordova-plugin-network-information.Connection",
+        "clobbers": [
+            "Connection"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-fastrde-checkgps/www/CheckGPS.js",
+        "id": "cordova-plugin-fastrde-checkgps.CheckGPS",
+        "clobbers": [
+            "CheckGPS"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -55,7 +77,9 @@ module.exports.metadata =
     "cordova-plugin-statusbar": "2.1.3",
     "cordova-plugin-splashscreen": "3.2.2",
     "com.phonegap.plugins.nativesettingsopener": "1.2",
-    "cordova-plugin-inappbrowser": "1.4.0"
+    "cordova-plugin-inappbrowser": "1.4.0",
+    "cordova-plugin-network-information": "1.2.1",
+    "cordova-plugin-fastrde-checkgps": "0.9.9"
 };
 // BOTTOM OF METADATA
 });

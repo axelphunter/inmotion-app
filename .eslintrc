@@ -16,7 +16,8 @@
     "cordova": 1,
     "google": 1,
     "moment": 1,
-    "Handlebars": 1
+    "Handlebars": 1,
+    "Connection": 1
   },
   "rules": {
     "comma-dangle": ["error", "never"],
