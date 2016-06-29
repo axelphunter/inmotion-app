@@ -11,6 +11,7 @@ const app = {
   destinationLat: null,
   destinationLng: null,
   searchQuery: null,
+  favouriteLocations: localStorage.getItem('favourite_locations') || '[]',
   searchHistory: localStorage.getItem('search_history') || '[]',
   transportPreference: localStorage.getItem('transport_preference') || '["bus", "train", "tube", "boat"]',
   route: null,
@@ -123,8 +124,14 @@ const app = {
   },
 
   showLoader(status) {
-    app.loader.querySelector('p')[app.textProp] = app.factsList[Math.floor(Math.random() * app.factsList.length) + 0];
-    app.loader.style.display = (status) ? 'block' : 'none';
+    if (status) {
+      app.loader.querySelector('p')[app.textProp] = app.factsList[Math.floor(Math.random() * app.factsList.length) + 0];
+      app.loader.style.display = 'block';
+    } else {
+      setTimeout(function() {
+        app.loader.style.display = 'none';
+      }, 1000);
+    }
   },
 
   popUp(title, text, icon, buttonText) {
@@ -163,6 +170,11 @@ const app = {
       helpers.clearEl(container);
     }
 
+    const favourties = JSON.parse(app.favouriteLocations);
+    if (favourties.length > 0) {
+      model.push(favourties);
+    }
+
     Handlebars.compile(document.getElementById(`${view}-template`)
         .innerHTML)(model)
       .toDOM(container);
@@ -185,6 +197,9 @@ const app = {
     const el = e.target || e.srcElement;
     let action = el.getAttribute('data-action') || el.parentElement.getAttribute('data-action');
     const href = el.getAttribute('data-href');
+    if (el.classList.contains('active') || el.parentElement.classList.contains('active')) {
+      return;
+    }
     switch (e.type) {
       case 'swipe':
         {
@@ -193,7 +208,6 @@ const app = {
         break;
       default:
         {
-          console.log(el);
           if (el.getAttribute('type') === 'submit' && el.disabled !== true) {
             helpers.cancelEvent(e);
             action = el.parentElement.getAttribute('data-action');
@@ -228,88 +242,6 @@ const app = {
   },
 
   actions: {
-    index() {
-      function geoSuccess(position) {
-        app.location.lat = position.coords.latitude;
-        app.location.lng = position.coords.longitude;
-
-        app.actions.watchLocation();
-
-        if (app.renderView('index', false, null, 'app')) {
-          app.showLoader(false);
-          const searchInput = document.getElementById('searchInput');
-          const searchResults = document.getElementById('searchResults');
-
-          app.evt = new Hammer(document.getElementById('clearsearchinput'));
-          app.evt.on('tap', () => {
-            searchInput.value = '';
-            searchInput.blur();
-          });
-
-          let searchHistory = JSON.parse(app.searchHistory);
-          if (searchHistory.length > 0 && searchInput.value.length === 0) {
-            helpers.clearEl(searchResults);
-            searchHistory.forEach((val) => {
-              const li = helpers.createEl(searchResults, 'li', {
-                class: 'table-view-cell'
-              });
-              const a = helpers.createEl(li, 'a', {
-                class: 'navigate-right'
-              }, val.description.split(',', 1));
-              helpers.createEl(a, 'p', null, val.description);
-              app.evt = new Hammer(a);
-              app.evt.on('tap', () => {
-                app.actions.showLocation(val.id);
-              });
-            });
-          }
-
-          searchInput.onkeyup = function onkeyup() {
-            if (searchInput.value.length > 1) {
-              helpers.clearEl(searchResults);
-              promise.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${this.value}&key=${app.mapsKey}&components=country:gb`)
-                .then((error, res) => {
-                  if (!error) {
-                    const results = JSON.parse(res);
-                    results.predictions.forEach((val) => {
-                      const li = helpers.createEl(searchResults, 'li', {
-                        class: 'table-view-cell'
-                      });
-                      const a = helpers.createEl(li, 'a', {
-                        class: 'navigate-right'
-                      }, val.description.split(',', 1));
-                      helpers.createEl(a, 'p', null, val.description);
-                      app.evt = new Hammer(a);
-                      app.evt.on('tap', () => {
-                        const selectedObj = {
-                          id: val.place_id,
-                          description: val.description
-                        };
-                        if (searchHistory.unshift(selectedObj) > 5) {
-                          searchHistory.pop();
-                        }
-                        searchHistory = JSON.stringify(searchHistory);
-                        app.searchHistory = searchHistory;
-                        localStorage.setItem('search_history', app.searchHistory);
-                        app.actions.showLocation(val.place_id);
-                      });
-                    });
-                  }
-                });
-            }
-          };
-        }
-      }
-
-      function geoError(error) {
-        // TODO handle feo error
-      }
-      navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
-        timeout: 2000,
-        enableHighAccuracy: true
-      });
-    },
-
     watchLocation() {
       function geoSuccess(position) {
         app.location.lat = position.coords.latitude;
@@ -338,10 +270,102 @@ const app = {
       }
     },
 
+    index() {
+      function geoSuccess(position) {
+        app.location.lat = position.coords.latitude;
+        app.location.lng = position.coords.longitude;
+
+        app.actions.watchLocation();
+
+        if (app.renderView('index', false, null, 'app')) {
+          document.querySelector('.home')
+            .classList.add('active');
+          app.showLoader(false);
+          const searchInput = document.getElementById('searchInput');
+          const searchResults = document.getElementById('searchResults');
+
+          const clearSearch = document.getElementById('clearsearchinput');
+          clearSearch.classList.add('hidden');
+          app.evt = new Hammer(clearSearch);
+          app.evt.on('tap', () => {
+            clearSearch.classList.add('hidden');
+            searchInput.value = '';
+            searchInput.blur();
+          });
+
+          let searchHistory = JSON.parse(app.searchHistory);
+          if (searchHistory.length > 0 && searchInput.value.length === 0) {
+            helpers.clearEl(searchResults);
+            searchHistory.forEach((val) => {
+              const li = helpers.createEl(searchResults, 'li', {
+                class: 'table-view-cell'
+              });
+              const a = helpers.createEl(li, 'a', {
+                class: 'navigate-right'
+              }, val.description.split(',', 1));
+              helpers.createEl(a, 'p', null, val.description);
+              app.evt = new Hammer(a);
+              app.evt.on('tap', () => {
+                searchInput.blur();
+                app.showLoader(true);
+                app.actions.showLocation(val.id);
+              });
+            });
+          }
+
+          searchInput.onkeyup = function onkeyup() {
+            if (searchInput.value.length > 1) {
+              clearSearch.classList.remove('hidden');
+              helpers.clearEl(searchResults);
+              promise.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${this.value}&key=${app.mapsKey}&components=country:gb`)
+                .then((error, res) => {
+                  if (!error) {
+                    const results = JSON.parse(res);
+                    results.predictions.forEach((val) => {
+                      const li = helpers.createEl(searchResults, 'li', {
+                        class: 'table-view-cell'
+                      });
+                      const a = helpers.createEl(li, 'a', {
+                        class: 'navigate-right'
+                      }, val.description.split(',', 1));
+                      helpers.createEl(a, 'p', null, val.description);
+                      app.evt = new Hammer(a);
+                      app.evt.on('tap', () => {
+                        app.showLoader(true);
+                        const selectedObj = {
+                          id: val.place_id,
+                          description: val.description
+                        };
+                        if (searchHistory.unshift(selectedObj) > 10) {
+                          searchHistory.pop();
+                        }
+                        searchHistory = JSON.stringify(searchHistory);
+                        app.searchHistory = searchHistory;
+                        localStorage.setItem('search_history', app.searchHistory);
+                        app.actions.showLocation(val.place_id);
+                      });
+                    });
+                  }
+                });
+            } else {
+              clearSearch.classList.add('hidden');
+            }
+          };
+        }
+      }
+
+      function geoError(error) {
+        // TODO handle feo error
+      }
+      navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
+        timeout: 2000,
+        enableHighAccuracy: true
+      });
+    },
+
     showLocation(locationId) {
       promise.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${locationId}&key=${app.mapsKey}`)
         .then((error, res) => {
-          app.showLoader(false);
           if (!error) {
             const results = JSON.parse(res);
             helpers.clearEl(app.container);
@@ -469,6 +493,37 @@ const app = {
               class: 'icon icon-left-nav pull-left',
               'data-action': 'index'
             });
+            // const favouriteToggle = helpers.createEl(header, 'a', {
+            //   class: 'icon icon-left-nav pull-right'
+            // });
+            // let isFavourite = false;
+            // const favouriteLocations = JSON.parse(app.favouriteLocations);
+            // favouriteLocations.forEach((location) => {
+            //   if (location.id === locationId) {
+            //     isFavourite = true;
+            //   }
+            // });
+            // if (isFavourite) {
+            //   favouriteToggle.classList.add('icon-star-filled');
+            // } else {
+            //   favouriteToggle.classList.add('icon-star');
+            // }
+            // app.evt = new Hammer(favouriteToggle);
+            // app.evt.on('tap', () => {
+            //   if (isFavourite) {
+            //     favouriteToggle.classList.remove('icon-star-filled')
+            //       .add('icon-star');
+            //   } else {
+            //     const selectedObj = {
+            //       id: locationId,
+            //       title: results.result.name,
+            //       address: results.result.formatted_address
+            //     };
+            //     favouriteLocations = JSON.stringify(selectedObj);
+            //     app.favouriteLocations = favouriteLocations;
+            //     localStorage.setItem('favourite_locations', app.favouriteLocations);
+            //   }
+            // });
             helpers.createEl(header, 'h1', {
               class: 'title logo'
             }, 'INMOTION');
@@ -487,6 +542,7 @@ const app = {
           } else {
             app.actions.index();
           }
+          app.showLoader(false);
         });
     },
 
@@ -531,15 +587,27 @@ const app = {
           const a = helpers.createEl(li, 'a', {
             class: 'navigate-right'
           })
+
+          const depTime = moment()
+            .set('hour', route.departure_time.split(':')[0])
+            .set('minute', route.departure_time.split(':')[1]);
+
+          const departsIn = helpers.createEl(a, 'div');
+          helpers.createEl(departsIn, 'p', null, 'Leaves');
+          helpers.createEl(departsIn, 'h3', null, moment(depTime)
+            .fromNow());
+          const duration = helpers.createEl(a, 'div');
+          helpers.createEl(duration, 'p', null, 'Journey time');
+          helpers.createEl(duration, 'h3', {
+              class: 'duration'
+            }, moment.duration(route.duration, 'minutes')
+            .format('h [hrs], m [min]'));
           const departureTime = helpers.createEl(a, 'div');
           helpers.createEl(departureTime, 'p', null, 'Departure time');
           helpers.createEl(departureTime, 'h3', null, route.departure_time);
           const arrivalTime = helpers.createEl(a, 'div');
           helpers.createEl(arrivalTime, 'p', null, 'Arrival time');
           helpers.createEl(arrivalTime, 'h3', null, route.arrival_time);
-          helpers.createEl(a, 'p', null, 'Duration');
-          helpers.createEl(a, 'h3', null, moment.duration(route.duration, 'minutes')
-            .humanize());
           app.evt = new Hammer(a);
           app.evt.on('tap', () => {
             app.route = route;

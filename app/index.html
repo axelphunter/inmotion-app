@@ -128,17 +128,17 @@
   <!-- Footer Nav Partial -->
   <script id="footer-nav-partial" type="text/x-handlebars-template">
   <nav class="bar bar-tab">
-    <a class="tab-item" href="#profileModal">
+    <!-- <a class="tab-item" href="#profileModal">
       <span class="icon icon-person"></span>
       <span class="tab-label">Profile</span>
-    </a>
-    <a class="tab-item" href="#">
+    </a> -->
+    <!-- <a class="tab-item" href="#">
       <span class="icon icon-star-filled"></span>
       <span class="tab-label">Favorites</span>
-    </a>
-    <a class="tab-item" data-action="index">
-      <span class="icon icon-search"></span>
-      <span class="tab-label">Search</span>
+    </a> -->
+    <a class="tab-item home" data-action="index">
+      <span class="icon icon-home"></span>
+      <span class="tab-label">Home</span>
     </a>
     <a class="tab-item" href="#settingsModal">
       <span class="icon icon-gear"></span>
@@ -149,7 +149,7 @@
   <!-- Search partial -->
   <script id="search-partial" type="text/x-handlebars-template">
     <section class="search">
-      <span class="icon icon-search"></span><input type="text" id="searchInput" placeholder="Where are you going?"><span id="clearsearchinput" class="icon icon-close"></span>
+      <span class="icon icon-search"></span><input type="text" id="searchInput" placeholder="Where are you going?" autofocus><span id="clearsearchinput" class="icon icon-close"></span>
     </section>
   </script>
 
@@ -236,6 +236,7 @@
 <script type="text/javascript" src="bower_components/hammerjs/hammer.js"></script>
 <script type="text/javascript" src="bower_components/vanilla-masker/lib/vanilla-masker.js"></script>
 <script type="text/javascript" src="bower_components/moment/moment.js"></script>
+<script type="text/javascript" src="bower_components/moment-duration-format/lib/moment-duration-format.js"></script>
 <script type="text/javascript" src="js/scripts/storage.js"></script>
 <script type="text/javascript" src="js/scripts/index.js"></script>
 <!-- endbuild -->

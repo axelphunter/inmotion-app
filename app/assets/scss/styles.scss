@@ -22,8 +22,12 @@ body {
   user-select: none;
 }
 
-a {
+a, .active {
   color: $primary-colour;
+}
+
+.active {
+  color: $primary-colour !important;
 }
 
 h1,
@@ -31,6 +35,11 @@ h2,
 h3,
 h4 {
   font-weight: 300;
+}
+
+.navigate-right:after {
+  right: 20px;
+  font-size: 25px;
 }
 
 .btn {
@@ -116,6 +125,14 @@ header.bar {
   .search {
     padding: 10px 0;
 
+    #clearsearchinput {
+      display: inline-block;
+
+      &.hidden {
+        display: none;
+      }
+    }
+
     input {
       border-bottom: 3px solid $primary-colour;
       border-left: 0;
@@ -132,19 +149,19 @@ header.bar {
     }
 
     input::-webkit-input-placeholder {
-      font-size: 15px;
+      font-size: 18px;
       line-height: 2;
       vertical-align: bottom;
     }
 
     input::-moz-placeholder {
-      font-size: 15px;
+      font-size: 18px;
       line-height: 2;
       vertical-align: bottom;
     }
 
     input:-ms-input-placeholder {
-      font-size: 15px;
+      font-size: 18px;
       line-height: 2;
       vertical-align: bottom;
     }
@@ -182,9 +199,10 @@ header.bar {
   }
 
   p {
-    color: $white;
-    margin: 0 auto;
-    width: 80%;
+    color: #fdfffc;
+    margin: 20px auto;
+    font-size: 16px;
+    width: 80%
   }
 }
 
@@ -360,6 +378,10 @@ form {
       div {
         display: inline-block;
         width: 50%;
+
+        &:first-child {
+          margin-bottom: 10px;
+        }
       }
       h2::before {
         background: url('../img/icons/clock-icon.svg') center / contain no-repeat;
@@ -369,6 +391,11 @@ form {
         margin-right: .5rem;
         vertical-align: middle;
         width: 1.5rem;
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 20px;
       }
     }
   }
@@ -395,7 +422,7 @@ form {
       background: url('../img/icons/bus.svg') center / contain no-repeat;
     }
 
-    h2::before:first-child[data-type='train']::before {
+    h2:first-child[data-type='train']::before {
       background: url('../img/icons/train.svg') center / contain no-repeat;
     }
 
