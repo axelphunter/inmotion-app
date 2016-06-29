@@ -28,6 +28,9 @@
     <feature name="CheckGPS">
         <param name="android-package" value="de.fastr.phonegap.plugins.CheckGPS" />
     </feature>
+    <feature name="SocialSharing">
+        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
+    </feature>
     <allow-intent href="market:*" />
     <splash density="land-hdpi" src="res/screen/android/splash-land-hdpi.png" />
     <splash density="land-ldpi" src="res/screen/android/splash-land-ldpi.png" />

@@ -87,18 +87,13 @@
           </li>
           <li class="table-view-divider">Spread the word</li>
           <li class="table-view-cell">
-            <a class="navigate-right">
+            <a class="navigate-right" onclick="window.plugins.socialsharing.shareViaFacebook('Message via Facebook', null /* img */, null /* url */, function() {console.log('share ok')}, function(errormsg){alert(errormsg)})">
               Share on Facebook
             </a>
           </li>
           <li class="table-view-cell">
-            <a class="navigate-right">
+            <a class="navigate-right" onclick="window.plugins.socialsharing.shareViaTwitter('Message via Twitter')">
               Share on Twitter
-            </a>
-          </li>
-          <li class="table-view-cell">
-            <a class="navigate-right">
-              Email your friends
             </a>
           </li>
           <li class="table-view-divider">Stay connected</li>
@@ -193,11 +188,11 @@
         <p>Enter your phone number to create a secure account.</p>
         <input type="submit" value="Next" class="btn btn-negative btn-block"/>
     </form>
-    <nav class="bar bar-tab">
+    <!-- <nav class="bar bar-tab">
       <a class="tab-item active" data-action="skip">
         Create account later
       </a>
-    </nav>
+    </nav> -->
   </script>
   <!-- Skip page template -->
   <script id="skip-template" type="text/x-handlebars-template">
@@ -212,16 +207,17 @@
     <h3>A verification code has been sent to you by text message.</h3>
     <form data-action="checkValidation">
         <label for="verificationCode">
-            <input type="text" name="verificationCode" id="verificationCode" placeholder="Verification Code"/>
+            <input type="tel" name="verificationCode" id="verificationCode" placeholder="Verification Code"/>
         </label>
         <input type="submit" value="Next" class="btn btn-negative btn-block"/>
-        <button class="btn btn-primary btn-block btn-outlined" data-action="resendValidationCode">Re-send Validation Code</button>
+        <button class="btn btn-primary btn-block btn-outlined" data-action="validate">Re-send Validation Code</button>
+        <button class="btn btn-negative btn-block" data-action="signUp">Re-enter telephone number</button>
     </form>
-    <nav class="bar bar-tab">
-      <a class="tab-item active" data-action="signUp">
+    <!-- <nav class="bar bar-tab" data-action="signUp">
+      <a class="tab-item active" >
         Back
       </a>
-    </nav>
+    </nav> -->
   </script>
 </body>
 <!-- scripts -->

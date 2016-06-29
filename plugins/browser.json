@@ -30,6 +30,9 @@
         },
         "cordova-plugin-fastrde-checkgps": {
             "PACKAGE_NAME": "com.ragnaroksolutions.inmotion"
+        },
+        "cordova-plugin-x-socialsharing": {
+            "PACKAGE_NAME": "com.ragnaroksolutions.inmotion"
         }
     },
     "dependent_plugins": {}

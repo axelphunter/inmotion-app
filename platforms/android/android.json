@@ -39,6 +39,10 @@
                         {
                             "xml": "<feature name=\"CheckGPS\"><param name=\"android-package\" value=\"de.fastr.phonegap.plugins.CheckGPS\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SocialSharing\"><param name=\"android-package\" value=\"nl.xservices.plugins.SocialSharing\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -56,6 +60,10 @@
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
                             "count": 1
                         }
                     ]
@@ -86,6 +94,9 @@
             "PACKAGE_NAME": "com.ragnaroksolutions.inmotion"
         },
         "cordova-plugin-fastrde-checkgps": {
+            "PACKAGE_NAME": "com.ragnaroksolutions.inmotion"
+        },
+        "cordova-plugin-x-socialsharing": {
             "PACKAGE_NAME": "com.ragnaroksolutions.inmotion"
         }
     },
@@ -158,6 +169,13 @@
             "clobbers": [
                 "CheckGPS"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+            "id": "cordova-plugin-x-socialsharing.SocialSharing",
+            "clobbers": [
+                "window.plugins.socialsharing"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -168,6 +186,7 @@
         "com.phonegap.plugins.nativesettingsopener": "1.2",
         "cordova-plugin-inappbrowser": "1.4.0",
         "cordova-plugin-network-information": "1.2.1",
-        "cordova-plugin-fastrde-checkgps": "0.9.9"
+        "cordova-plugin-fastrde-checkgps": "0.9.9",
+        "cordova-plugin-x-socialsharing": "5.1.1"
     }
 }

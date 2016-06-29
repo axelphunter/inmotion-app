@@ -757,10 +757,12 @@ const app = {
     },
 
     validate() {
-      document.querySelector('input#phonenumber')
-        .blur();
-      app.telephoneNumber = document.querySelector('input#phonenumber')
-        .value;
+      app.telephoneNumber = ((document.querySelector('input#phonenumber')) ? document.querySelector('input#phonenumber')
+        .value : app.telephoneNumber);
+      if (document.querySelector('input#phonenumber')) {
+        document.querySelector('input#phonenumber')
+          .blur();
+      }
       if (app.telephoneNumber.length === 11) {
         promise.post(`${app.apiUrl}/api/register`, {
             phoneNumber: app.telephoneNumber
@@ -772,12 +774,12 @@ const app = {
               localStorage.setItem('user_id', app.userId);
               app.actions.verify();
             } else {
-              // TODO Create nice alert box which also handles errors
+              app.popUp('Oops, something went wrong', '<p>The telephone number that you have entered is incorrect. Please check the number and try again.</p>');
               app.actions.signup();
             }
           });
       } else {
-        // TODO Create nice alert box
+        app.popUp('Oops, something went wrong', '<p>The telephone number that you have entered is incorrect. Please check the number and try again.</p>');
         app.actions.signup();
       }
     },
@@ -789,7 +791,7 @@ const app = {
         const submit = document.querySelector('input[type=submit]');
         submit.disabled = true;
         verificationCodeInput.onkeyup = function onkeyup() {
-          if (this.value.length > 6 || isNaN(this.value.slice(-1))) {
+          if (isNaN(this.value.slice(-1))) {
             this.value = this.value.slice(0, -1);
           }
           if (this.value.length === 6) {
@@ -802,7 +804,7 @@ const app = {
     checkValidation() {
       const verificationCode = document.querySelector('input#verificationCode')
         .value;
-      if (verificationCode.length === 6 && !isNaN(verificationCode)) {
+      if (!isNaN(verificationCode)) {
         promise.post(`${app.apiUrl}/api/verify`, {
             _id: app.userId,
             verificationCode
@@ -814,12 +816,12 @@ const app = {
               localStorage.setItem('api_token', app.token);
               app.actions.index();
             } else {
-              // TODO Create nice alert box which also handles errors
+              app.popUp('Oops, something went wrong', '<p>The verification code that you have entered is incorrect. Please check the number and try again.</p>');
               app.actions.verify();
             }
           });
       } else {
-        // TODO Create nice alert box
+        app.popUp('Oops, something went wrong', '<p>The verification code that you have entered is incorrect. Please check the number and try again.</p>');
         app.actions.verify();
       }
     },

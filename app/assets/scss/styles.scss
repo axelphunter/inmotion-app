@@ -271,6 +271,11 @@ header.bar {
     width: 20%;
   }
 
+  h1 {
+    font-size: 20px;
+    color: #8f8f94;
+  }
+
   p {
     text-align: inherit;
   }
@@ -293,7 +298,7 @@ form {
 
 #signup,
 #verify {
-  padding-top: 20%;
+  padding-top: 20% !important;
 
   h3 {
     margin: auto;
