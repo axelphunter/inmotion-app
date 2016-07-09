@@ -5,9 +5,6 @@ const app = {
   textProp: ('textContent' in document.createElement('i')) ? 'textContent' : 'innerText',
   telephoneNumber: null,
   apiUrl: 'https://inmotion-api.herokuapp.com',
-  mapsKey: 'AIzaSyCBn8Da8NB_AHJgYRdT4Lj8HFtZNiC7BTg',
-  transportKey: 'd9307fd91b0247c607e098d5effedc97',
-  transportId: '03bf8009',
   destinationLat: null,
   destinationLng: null,
   searchQuery: null,
@@ -419,8 +416,10 @@ const app = {
       });
     },
 
-    showLocation(locationId) {
-      promise.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${locationId}&key=${app.mapsKey}`)
+    showLocation(placeId) {
+      promise.get(`${app.apiUrl}/api/location?pid=${placeId}`, null, {
+          'x-access-token': app.token
+        })
         .then((error, res) => {
           if (!error) {
             const results = JSON.parse(res);
@@ -603,22 +602,12 @@ const app = {
     },
 
     queryResults(searchQuery) {
-      const params = {
-        app_id: app.transportId,
-        app_key: app.transportKey,
-        region: 'southeast',
-        modes: JSON.parse(app.transportPreference)
-          .join('-')
-      };
-      let paramStr = '';
-      for (const key in params) {
-        if (paramStr !== '') {
-          paramStr += '&';
-        }
-        paramStr += `${key}=${encodeURIComponent(params[key])}`;
-      }
-      app.searchQuery = searchQuery || `http://transportapi.com/v3/uk/public/journey/from/lonlat:${app.location.lng},${app.location.lat}/to/lonlat:${app.destinationLng},${app.destinationLat}/at/${moment().format('YYYY-MM-DD')}/${moment().format('HH:mm')}.json?${paramStr}`;
-      promise.get(app.searchQuery)
+      const modes = modes: JSON.parse(app.transportPreference)
+        .join('-')
+      app.searchQuery = searchQuery || `${app.apiUrl}/routes?from_lng=${app.location.lng}&from_lat=${app.location.lat}&to_lng=${app.destinationLng}&to_lat=${app.destinationLat}&modes=${modes}`;
+      promise.get(app.searchQuery, null, {
+          'x-access-token': app.token
+        })
         .then((error, results) => {
           if (!error) {
             app.searchResults = JSON.parse(results);
