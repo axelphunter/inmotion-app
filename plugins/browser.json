@@ -24,6 +24,9 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.ragnaroksolutions.inmotion"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.ragnaroksolutions.inmotion"
         }
     },
     "dependent_plugins": {}

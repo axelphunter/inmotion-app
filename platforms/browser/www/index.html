@@ -32,39 +32,162 @@
         </div>
     {{/if}}
   </script>
+  <!-- Profile Modal Partial -->
+  <script id="profile-modal-partial" type="text/x-handlebars-template">
+    <div id="profileModal" class="modal">
+      <header class="bar bar-nav">
+        <a class="icon icon-close pull-right" href="#profileModal"></a>
+        <h1 class="title">Profile</h1>
+      </header>
+      <div class="content">
+        <p class="content-padded">The contents of my modal go here. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.</p>
+      </div>
+    </div>
+  </script>
+  <!-- Settings Modal Partial -->
+  <script id="settings-modal-partial" type="text/x-handlebars-template">
+    <div id="settingsModal" class="modal">
+      <header class="bar bar-nav">
+        <a class="icon icon-close pull-right" href="#settingsModal"></a>
+        <h1 class="title">Settings</h1>
+      </header>
+      <div class="content">
+        <ul class="table-view">
+          <li class="table-view-divider">
+              Transport preferences
+          </li>
+          <li class="table-view-cell">
+            Bus
+            <div class="toggle" data-transport-preference="bus">
+              <div class="toggle-handle"></div>
+            </div>
+          </li>
+          <li class="table-view-cell">
+            Train
+            <div class="toggle" data-transport-preference="train">
+              <div class="toggle-handle"></div>
+            </div>
+          </li>
+          <li class="table-view-cell">
+            Tube
+            <div class="toggle" data-transport-preference="tube">
+              <div class="toggle-handle"></div>
+            </div>
+          </li>
+          <li class="table-view-cell">
+            Boat
+            <div class="toggle" data-transport-preference="boat">
+              <div class="toggle-handle"></div>
+            </div>
+          </li>
+          <li class="table-view-divider">Spread the word</li>
+          <li class="table-view-cell">
+            <a class="navigate-right" onclick="window.plugins.socialsharing.shareViaFacebook('Message via Facebook', null /* img */, null /* url */, function() {console.log('share ok')}, function(errormsg){alert(errormsg)})">
+              Share on Facebook
+            </a>
+          </li>
+          <li class="table-view-cell">
+            <a class="navigate-right" onclick="window.plugins.socialsharing.shareViaTwitter('Message via Twitter')">
+              Share on Twitter
+            </a>
+          </li>
+          <li class="table-view-divider">Stay connected</li>
+          <li class="table-view-cell">
+            <a class="navigate-right">
+              Like our page
+            </a>
+          </li>
+          <li class="table-view-cell">
+            <a class="navigate-right">
+              Follow us on Twitter
+            </a>
+          </li>
+          <li class="table-view-divider">Help us shine</li>
+          <li class="table-view-cell">
+            <a class="navigate-right">
+              Rate us
+            </a>
+          </li>
+        </ul>
+        <div class="card">
+          <button class="btn btn-negative btn-block" data-action="signOut">Logout</button>
+        </div>
+      </div>
+    </div>
+  </script>
+  <!-- Footer Nav Partial -->
+  <script id="footer-nav-partial" type="text/x-handlebars-template">
+  <nav class="bar bar-tab">
+    <!-- <a class="tab-item" href="#profileModal">
+      <span class="icon icon-person"></span>
+      <span class="tab-label">Profile</span>
+    </a> -->
+    <!-- <a class="tab-item" href="#">
+      <span class="icon icon-star-filled"></span>
+      <span class="tab-label">Favorites</span>
+    </a> -->
+    <a class="tab-item home" data-action="index">
+      <span class="icon icon-home"></span>
+      <span class="tab-label">Home</span>
+    </a>
+    <a class="tab-item" href="#settingsModal">
+      <span class="icon icon-gear"></span>
+      <span class="tab-label">Settings</span>
+    </a>
+  </nav>
+  </script>
   <!-- Search partial -->
   <script id="search-partial" type="text/x-handlebars-template">
     <section class="search">
-        <p>Where are you going?</p>
-        <div class="searchIcon"></div><input type="text" id="searchInput" placeholder="Search by street address"/><a id="clearsearchinput"></a>
+      <span class="icon icon-search"></span><input type="text" id="searchInput" placeholder="Where are you going?" autofocus><span id="clearsearchinput" class="icon icon-close"></span>
     </section>
   </script>
 
   <!-- Handlebars templates -->
   <!-- index page template -->
   <script id="index-template" type="text/x-handlebars-template">
-    <header><div></div><div class="logo"></div><div data-action="index"></div></header>
-    {{> search}}
-    <ul class="search-results" id="searchResults"></ul>
+    <header class="bar bar-nav">
+      <h1 class="title logo">INMOTION</h1>
+    </header>
+    <div class="bar bar-standard bar-header-secondary">
+      {{> search}}
+    </div>
+    <div class="content">
+      <ul class="table-view" id="searchResults"></ul>
+    </div>
+    {{> footerNav}}
+    {{> profileModal}}
+    {{> settingsModal}}
   </script>
   <!-- Results page template -->
   <script id="results-template" type="text/x-handlebars-template">
-    <header><div id="back"></div><div class="logo"></div><div data-action="index"></div></header>
-    <ul class="route-results" id="routeResults"></ul>
+    <header class="bar bar-nav">
+      <a class="icon icon-left-nav pull-left"></a>
+      <h1 class="title logo">INMOTION</h1>
+    </header>
+    <div class="content">
+      <ul class="table-view route-results" id="routeResults"></ul>
+    </div>
+    {{> footerNav}}
+    {{> profileModal}}
+    {{> settingsModal}}
   </script>
   <!-- Signup page template  -->
   <script id="signup-template" type="text/x-handlebars-template">
-    <h1>Welcome to</h1>
+    <h3>Welcome to</h3>
     <img src="img/logo-light.png" class="logo"/>
     <form data-action="validate">
         <label for="phonenumber">
             <input type="tel" name="telephone" id="phonenumber" placeholder="Phone number"/>
         </label>
         <p>Enter your phone number to create a secure account.</p>
-        <input type="submit" value="Next" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
+        <input type="submit" value="Next" class="btn btn-negative btn-block"/>
     </form>
-    <p class="absolute-bottom" data-action="welcome">Already have an account?</p>
-    <p class="skip" data-action="skip">Skip ></p>
+    <!-- <nav class="bar bar-tab">
+      <a class="tab-item active" data-action="skip">
+        Create account later
+      </a>
+    </nav> -->
   </script>
   <!-- Skip page template -->
   <script id="skip-template" type="text/x-handlebars-template">
@@ -76,16 +199,20 @@
   </script>
   <!-- verifiy template -->
   <script id="verify-template" type="text/x-handlebars-template">
-    <p>A verification code has been sent to you by text message.</p>
-    <a data-action="resendValidationCode">Send it again</a>
-    <img class="center-icon" src="img/icons/envelope-icon.svg"/>
+    <h3>A verification code has been sent to you by text message.</h3>
     <form data-action="checkValidation">
         <label for="verificationCode">
-            <input type="text" name="verificationCode" id="verificationCode" placeholder="Verification Code"/>
+            <input type="tel" name="verificationCode" id="verificationCode" placeholder="Verification Code"/>
         </label>
-        <input type="submit" value="Next" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
+        <input type="submit" value="Next" class="btn btn-negative btn-block"/>
+        <button class="btn btn-primary btn-block btn-outlined" data-action="validate">Re-send Validation Code</button>
+        <button class="btn btn-negative btn-block" data-action="signUp">Re-enter telephone number</button>
     </form>
-    <p class="back" data-action="signUp">< Back</p>
+    <!-- <nav class="bar bar-tab" data-action="signUp">
+      <a class="tab-item active" >
+        Back
+      </a>
+    </nav> -->
   </script>
 </body>
 <!-- scripts -->

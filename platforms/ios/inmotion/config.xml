@@ -32,6 +32,9 @@
     <feature name="InAppBrowser">
         <param name="ios-package" value="CDVInAppBrowser" />
     </feature>
+    <feature name="NetworkStatus">
+        <param name="ios-package" value="CDVConnection" />
+    </feature>
     <name>inmotion</name>
     <description>
         inmotion is a public transport navigation app
@@ -62,7 +65,6 @@
     <splash height="2208" src="res/screen/ios/Default-736h.png" width="1242" />
     <splash height="1242" src="res/screen/ios/Default-Landscape-736h.png" width="2208" />
     <icon height="180" src="res/icons/ios/icon-60@3x.png" width="180" />
-    <icon height="60" src="res/icons/ios/icon-60.png" width="60" />
     <icon height="120" src="res/icons/ios/icon-60@2x.png" width="120" />
     <icon height="76" src="res/icons/ios/icon-76.png" width="76" />
     <icon height="152" src="res/icons/ios/icon-76@2x.png" width="152" />
@@ -74,8 +76,10 @@
     <icon height="144" src="res/icons/ios/icon-72@2x.png" width="144" />
     <icon height="29" src="res/icons/ios/icon-small.png" width="29" />
     <icon height="58" src="res/icons/ios/icon-small@2x.png" width="58" />
+    <icon height="87" src="res/icons/ios/icon-small@3x.png" width="87" />
     <icon height="50" src="res/icons/ios/icon-50.png" width="50" />
     <icon height="100" src="res/icons/ios/icon-50@2x.png" width="100" />
+    <icon height="167" src="res/icons/ios/icon-167.png" width="167" />
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="BackupWebStorage" value="cloud" />
     <preference name="DisallowOverscroll" value="true" />

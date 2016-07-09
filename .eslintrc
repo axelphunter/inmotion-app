@@ -16,11 +16,12 @@
     "cordova": 1,
     "google": 1,
     "moment": 1,
-    "Handlebars": 1
+    "Handlebars": 1,
+    "CheckGPS": 1
   },
   "rules": {
     "comma-dangle": ["error", "never"],
     "new-cap": ["error", {"capIsNewExceptions": ["Router"]}],
-    "max-len": ["error", { "ignoreUrls": true, "code": 100 }]
+    "max-len": ["error", 200]
   }
 }

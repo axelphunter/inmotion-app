@@ -11,6 +11,7 @@ const app = {
   destinationLat: null,
   destinationLng: null,
   searchQuery: null,
+  networkCount: 0,
   favouriteLocations: localStorage.getItem('favourite_locations') || '[]',
   searchHistory: localStorage.getItem('search_history') || '[]',
   transportPreference: localStorage.getItem('transport_preference') || '["bus", "train", "tube", "boat"]',
@@ -24,7 +25,7 @@ const app = {
   },
   factsList: [
     'Walking to and from public transport is a great way to incorporate some extra physical activity into your routine.',
-    'Their are nearly 47,000 buses that operate in the UK.',
+    'There are nearly 47,000 buses that operate in the UK.',
     'Buses account for around two-thirds of all public transport journeys in the UK, with 5.2 million journeys a year.',
     'Catching public transport may also improve your mental health. It’s less stressful than driving, and you can read, listen to music or unwind on your daily commute.',
     'Catching public transport may be up to four times cheaper than travelling in your car. It can also reduce the cost of buying, maintaining and running additional vehicles.',
@@ -45,9 +46,43 @@ const app = {
     }, 50);
     document.addEventListener('deviceready', () => {
       if (app.render()) {
-        app.onOnline();
+        document.addEventListener('online', app.onOnline, false);
+        document.addEventListener('offline', app.onOffline, false);
+        app.checkConnection();
       }
     }, false);
+  },
+
+  checkConnection() {
+    const networkState = navigator.connection.type;
+    switch (networkState) {
+      case 'unknown':
+        {
+          if (app.networkCount > 4) {
+            app.onOnline();
+            app.networkCount = null;
+            break;
+          }
+          app.networkCount++;
+          window.setTimeout(app.checkConnection, 1000);
+        }
+        break;
+      case 'none':
+        {
+          app.onOffline();
+        }
+        break;
+      default:
+        {
+          app.onOnline();
+        }
+        break;
+    }
+  },
+
+  onOffline() {
+    app.showLoader(false);
+    app.offline.style.display = 'block';
   },
 
   preparePartials() {
@@ -73,6 +108,16 @@ const app = {
     // container definition
     app.container = helpers.createEl(app.body, 'main');
 
+    app.offline = helpers.createEl(app.body, 'div', {
+      class: 'no-connection'
+    });
+    helpers.createEl(app.offline, 'img', {
+      src: 'img/icons/no-connection.svg'
+    });
+    helpers.createEl(app.offline, 'h3', null, 'Oops, connection lost!');
+    helpers.createEl(app.offline, 'p', null, 'Please wait while we try to re-connect you...');
+    app.offline.style.display = 'none';
+
     app.loader = helpers.createEl(app.body, 'div', {
       class: 'loader'
     });
@@ -80,12 +125,14 @@ const app = {
       src: 'img/loader.svg'
     });
     helpers.createEl(app.loader, 'h3', null, 'Coming right up!');
-    helpers.createEl(app.loader, 'p')
+    helpers.createEl(app.loader, 'p');
+
     return true;
   },
 
   onOnline() {
-    storage.init();
+    app.loader.style.display = 'block';
+    app.offline.style.display = 'none';
 
     if (!localStorage.getItem('has_run')) {
       localStorage.setItem('has_run', 'true');
@@ -128,13 +175,13 @@ const app = {
       app.loader.querySelector('p')[app.textProp] = app.factsList[Math.floor(Math.random() * app.factsList.length) + 0];
       app.loader.style.display = 'block';
     } else {
-      setTimeout(function() {
+      setTimeout(() => {
         app.loader.style.display = 'none';
       }, 1000);
     }
   },
 
-  popUp(title, text, icon, buttonText) {
+  popUp(title, text, icon, buttonText, action) {
     const btnText = buttonText || 'Continue';
     const popup = helpers.createEl(app.body, 'div', {
       class: 'popupOverlay'
@@ -149,13 +196,16 @@ const app = {
       });
     }
     if (text) {
-      helpers.createEl(popupWrapper, 'p', null, text);
+      helpers.createEl(popupWrapper, 'div', null, null, text);
     }
     const btn = helpers.createEl(popupWrapper, 'button', {
-      class: 'btn btn-primary btn-block'
+      class: 'btn btn-negative btn-block'
     }, btnText);
     new Hammer(btn)
       .on('tap', () => {
+        if (action === 'open-settings') {
+          app.actions.noLocation();
+        }
         app.body.removeChild(popup);
       });
   },
@@ -181,7 +231,7 @@ const app = {
 
     if (document.getElementById('settingsModal')) {
       const transportPreference = JSON.parse(app.transportPreference);
-      transportPreference.forEach(function(el) {
+      transportPreference.forEach((el) => {
         document.querySelector(`.toggle[data-transport-preference="${el}"]`)
           .classList.add('active');
       });
@@ -203,7 +253,7 @@ const app = {
     switch (e.type) {
       case 'swipe':
         {
-          console.log('swipe recorded');
+          // console.log('swipe recorded');
         }
         break;
       default:
@@ -249,7 +299,7 @@ const app = {
       }
 
       function geoError(error) {
-        console.log(error);
+        // console.log(error);
       }
 
       navigator.geolocation.watchPosition(geoSuccess, geoError, {
@@ -258,15 +308,13 @@ const app = {
     },
 
     noLocation() {
-      if (app.renderView('signup', false, null, 'signup')) {
-        if (typeof cordova.plugins.settings.openSetting !== undefined) {
-          cordova.plugins.settings.open(() => {
-              console.log('opened settings');
-            },
-            () => {
-              console.log('failed to open settings');
-            });
-        }
+      if (typeof cordova.plugins.settings.openSetting !== undefined) {
+        cordova.plugins.settings.open(() => {
+            // console.log('opened settings');
+          },
+          () => {
+            // console.log('failed to open settings');
+          });
       }
     },
 
@@ -355,7 +403,13 @@ const app = {
       }
 
       function geoError(error) {
-        // TODO handle feo error
+        CheckGPS.check(() => {
+            // console.log('something wrong with GPS');
+          },
+          () => {
+            app.showLoader(false);
+            app.popUp(null, '<p>INMOTION relies on using your location to show you great routes to your destination. In order to do this we ask for permission to use your location services.</p><ol><li data-type="settings">1. Go to settings.</li><li data-type="privacy">2. Tap Privacy.</li><li data-type="location-services">3. Tap Location Services.</li><li data-type="turn-on">4. Set inmotion to On.</li></ol>', null, 'Got it', 'open-settings');
+          });
       }
       navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
         timeout: 2000,
@@ -586,7 +640,7 @@ const app = {
           });
           const a = helpers.createEl(li, 'a', {
             class: 'navigate-right'
-          })
+          });
 
           const depTime = moment()
             .set('hour', route.departure_time.split(':')[0])
@@ -702,10 +756,12 @@ const app = {
     },
 
     validate() {
-      document.querySelector('input#phonenumber')
-        .blur();
-      app.telephoneNumber = document.querySelector('input#phonenumber')
-        .value;
+      app.telephoneNumber = ((document.querySelector('input#phonenumber')) ? document.querySelector('input#phonenumber')
+        .value : app.telephoneNumber);
+      if (document.querySelector('input#phonenumber')) {
+        document.querySelector('input#phonenumber')
+          .blur();
+      }
       if (app.telephoneNumber.length === 11) {
         promise.post(`${app.apiUrl}/api/register`, {
             phoneNumber: app.telephoneNumber
@@ -717,12 +773,12 @@ const app = {
               localStorage.setItem('user_id', app.userId);
               app.actions.verify();
             } else {
-              // TODO Create nice alert box which also handles errors
+              app.popUp('Oops, something went wrong', '<p>The telephone number that you have entered is incorrect. Please check the number and try again.</p>');
               app.actions.signup();
             }
           });
       } else {
-        // TODO Create nice alert box
+        app.popUp('Oops, something went wrong', '<p>The telephone number that you have entered is incorrect. Please check the number and try again.</p>');
         app.actions.signup();
       }
     },
@@ -734,7 +790,7 @@ const app = {
         const submit = document.querySelector('input[type=submit]');
         submit.disabled = true;
         verificationCodeInput.onkeyup = function onkeyup() {
-          if (this.value.length > 6 || isNaN(this.value.slice(-1))) {
+          if (isNaN(this.value.slice(-1))) {
             this.value = this.value.slice(0, -1);
           }
           if (this.value.length === 6) {
@@ -747,7 +803,7 @@ const app = {
     checkValidation() {
       const verificationCode = document.querySelector('input#verificationCode')
         .value;
-      if (verificationCode.length === 6 && !isNaN(verificationCode)) {
+      if (!isNaN(verificationCode)) {
         promise.post(`${app.apiUrl}/api/verify`, {
             _id: app.userId,
             verificationCode
@@ -759,12 +815,12 @@ const app = {
               localStorage.setItem('api_token', app.token);
               app.actions.index();
             } else {
-              // TODO Create nice alert box which also handles errors
+              app.popUp('Oops, something went wrong', '<p>The verification code that you have entered is incorrect. Please check the number and try again.</p>');
               app.actions.verify();
             }
           });
       } else {
-        // TODO Create nice alert box
+        app.popUp('Oops, something went wrong', '<p>The verification code that you have entered is incorrect. Please check the number and try again.</p>');
         app.actions.verify();
       }
     },
@@ -784,4 +840,3 @@ const app = {
 };
 
 app.initialize();
-tialize();

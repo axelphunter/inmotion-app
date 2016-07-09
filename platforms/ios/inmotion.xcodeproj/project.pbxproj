@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0207DA571B56EA530066E2B4 /* Images.xcassets */; };
 		0820201F252048E9A12FA3BC /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 26B9260B479D498F8329FB8D /* CDVViewController+SplashScreen.m */; };
@@ -20,6 +19,10 @@
 		5F2BDE72C0264B6A9D371DA7 /* NativeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = FF454C2D1ABE47FDBC7713A8 /* NativeSettings.m */; };
 		CE409FD1F2E142D8B7AC1459 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46D5C3C1CF124C8A877C6302 /* CoreLocation.framework */; };
 		D8F0B89C18F54C8F9813FB84 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E42DA129F74ED299141E15 /* CDVInAppBrowser.m */; };
+		FC201BD022DB485D90AABE1A /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C41177C1A47399CFECD52 /* CDVConnection.m */; };
+		9201156EA5264272B0126241 /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6BF0E9A1554FB2BE405B2C /* CDVReachability.m */; };
+		C65481EEA68E432C8834AD36 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F64C5B6497A4AC7B95F6D94 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		645BB42398394399BA9576F5 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91EF26804DD04D179BA91DC1 /* CoreTelephony.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +75,12 @@
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = inmotion/config.xml; sourceTree = "<group>"; };
 		FF454C2D1ABE47FDBC7713A8 /* NativeSettings.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = NativeSettings.m; path = com.phonegap.plugins.nativesettingsopener/NativeSettings.m; sourceTree = "<group>"; };
+		1E2C41177C1A47399CFECD52 /* CDVConnection.m */ = {isa = PBXFileReference; name = "CDVConnection.m"; path = "cordova-plugin-network-information/CDVConnection.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		0D6BF0E9A1554FB2BE405B2C /* CDVReachability.m */ = {isa = PBXFileReference; name = "CDVReachability.m"; path = "cordova-plugin-network-information/CDVReachability.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		B247CF9AB711453DB8940EA9 /* CDVConnection.h */ = {isa = PBXFileReference; name = "CDVConnection.h"; path = "cordova-plugin-network-information/CDVConnection.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		03DAC590A62042E3B65B0C71 /* CDVReachability.h */ = {isa = PBXFileReference; name = "CDVReachability.h"; path = "cordova-plugin-network-information/CDVReachability.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		8F64C5B6497A4AC7B95F6D94 /* SystemConfiguration.framework */ = {isa = PBXFileReference; name = "SystemConfiguration.framework"; path = "System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		91EF26804DD04D179BA91DC1 /* CoreTelephony.framework */ = {isa = PBXFileReference; name = "CoreTelephony.framework"; path = "System/Library/Frameworks/CoreTelephony.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +90,8 @@
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				CE409FD1F2E142D8B7AC1459 /* CoreLocation.framework in Frameworks */,
+				C65481EEA68E432C8834AD36 /* SystemConfiguration.framework in Frameworks */,
+				645BB42398394399BA9576F5 /* CoreTelephony.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +162,8 @@
 			isa = PBXGroup;
 			children = (
 				46D5C3C1CF124C8A877C6302 /* CoreLocation.framework */,
+				8F64C5B6497A4AC7B95F6D94 /* SystemConfiguration.framework */,
+				91EF26804DD04D179BA91DC1 /* CoreTelephony.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -188,6 +201,10 @@
 				A5B02EBB38274A63B2021DEC /* NativeSettings.h */,
 				07E42DA129F74ED299141E15 /* CDVInAppBrowser.m */,
 				C93F64BEBE794874BA8CAD0F /* CDVInAppBrowser.h */,
+				1E2C41177C1A47399CFECD52 /* CDVConnection.m */,
+				0D6BF0E9A1554FB2BE405B2C /* CDVReachability.m */,
+				B247CF9AB711453DB8940EA9 /* CDVConnection.h */,
+				03DAC590A62042E3B65B0C71 /* CDVReachability.h */,
 			);
 			name = Plugins;
 			path = inmotion/Plugins;
@@ -230,7 +247,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 800;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = U857B82DYS;
@@ -313,6 +330,8 @@
 				0820201F252048E9A12FA3BC /* CDVViewController+SplashScreen.m in Sources */,
 				5F2BDE72C0264B6A9D371DA7 /* NativeSettings.m in Sources */,
 				D8F0B89C18F54C8F9813FB84 /* CDVInAppBrowser.m in Sources */,
+				FC201BD022DB485D90AABE1A /* CDVConnection.m in Sources */,
+				9201156EA5264272B0126241 /* CDVReachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,11 +406,15 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -415,10 +438,14 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
