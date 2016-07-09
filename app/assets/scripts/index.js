@@ -4,7 +4,7 @@ const app = {
   evt: null,
   textProp: ('textContent' in document.createElement('i')) ? 'textContent' : 'innerText',
   telephoneNumber: null,
-  apiUrl: 'http://188.166.172.137:8080',
+  apiUrl: 'https://inmotion-api.herokuapp.com',
   mapsKey: 'AIzaSyCBn8Da8NB_AHJgYRdT4Lj8HFtZNiC7BTg',
   transportKey: 'd9307fd91b0247c607e098d5effedc97',
   transportId: '03bf8009',
@@ -365,7 +365,9 @@ const app = {
             if (searchInput.value.length > 1) {
               clearSearch.classList.remove('hidden');
               helpers.clearEl(searchResults);
-              promise.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${this.value}&key=${app.mapsKey}&components=country:gb`)
+              promise.get(`${app.apiUrl}/api/suggestions?q=${this.value}`, null, {
+                  'x-access-token': app.token
+                })
                 .then((error, res) => {
                   if (!error) {
                     const results = JSON.parse(res);
@@ -642,23 +644,27 @@ const app = {
             class: 'navigate-right'
           });
 
+          const _depTime = route.departure_time.split(':');
           const depTime = moment()
-            .set('hour', route.departure_time.split(':')[0])
-            .set('minute', route.departure_time.split(':')[1]);
+            .set('hour', _depTime[0])
+            .set('minute', _depTime[1]);
 
           const departsIn = helpers.createEl(a, 'div');
           helpers.createEl(departsIn, 'p', null, 'Leaves');
           helpers.createEl(departsIn, 'h3', null, moment(depTime)
             .fromNow());
+
           const duration = helpers.createEl(a, 'div');
           helpers.createEl(duration, 'p', null, 'Journey time');
           helpers.createEl(duration, 'h3', {
               class: 'duration'
             }, moment.duration(route.duration, 'minutes')
             .format('h [hrs], m [min]'));
+
           const departureTime = helpers.createEl(a, 'div');
           helpers.createEl(departureTime, 'p', null, 'Departure time');
           helpers.createEl(departureTime, 'h3', null, route.departure_time);
+
           const arrivalTime = helpers.createEl(a, 'div');
           helpers.createEl(arrivalTime, 'p', null, 'Arrival time');
           helpers.createEl(arrivalTime, 'h3', null, route.arrival_time);
