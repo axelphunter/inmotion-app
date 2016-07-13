@@ -202,6 +202,10 @@ const app = {
       .on('tap', () => {
         if (action === 'open-settings') {
           app.actions.noLocation();
+          return;
+        } else if (app.actions[action]) {
+          app.showLoader(true);
+          app.actions[action].call();
         }
         app.body.removeChild(popup);
       });
@@ -602,14 +606,15 @@ const app = {
     },
 
     queryResults(searchQuery) {
-      const modes = modes: JSON.parse(app.transportPreference)
-        .join('-')
-      app.searchQuery = searchQuery || `${app.apiUrl}/routes?from_lng=${app.location.lng}&from_lat=${app.location.lat}&to_lng=${app.destinationLng}&to_lat=${app.destinationLat}&modes=${modes}`;
+      const modes = JSON.parse(app.transportPreference)
+        .join('-');
+      app.searchQuery = searchQuery || `${app.apiUrl}/api/routes?from_lng=${app.location.lng}&from_lat=${app.location.lat}&to_lng=${app.destinationLng}&to_lat=${app.destinationLat}&modes=${modes}&ymd=${moment().format('YYYY-MM-DD')}&time=${moment().add(2, 'minutes').format('HH:mm')}`;
       promise.get(app.searchQuery, null, {
           'x-access-token': app.token
         })
         .then((error, results) => {
           if (!error) {
+            console.log(results);
             app.searchResults = JSON.parse(results);
             app.actions.resultList(app.searchResults);
           }
@@ -625,44 +630,48 @@ const app = {
         });
         app.showLoader(false);
         const routeResults = document.getElementById('routeResults');
-        results.routes.forEach((route) => {
-          const li = helpers.createEl(routeResults, 'li', {
-            class: 'table-view-cell'
+        if (results.routes.length > 0) {
+          results.routes.forEach((route) => {
+            const li = helpers.createEl(routeResults, 'li', {
+              class: 'table-view-cell'
+            });
+            const a = helpers.createEl(li, 'a', {
+              class: 'navigate-right'
+            });
+
+            const _depTime = route.departure_time.split(':');
+            const depTime = moment()
+              .set('hour', _depTime[0])
+              .set('minute', _depTime[1]);
+
+            const departsIn = helpers.createEl(a, 'div');
+            helpers.createEl(departsIn, 'p', null, 'Leaves');
+            helpers.createEl(departsIn, 'h3', null, moment(depTime)
+              .fromNow());
+
+            const duration = helpers.createEl(a, 'div');
+            helpers.createEl(duration, 'p', null, 'Journey time');
+            helpers.createEl(duration, 'h3', {
+                class: 'duration'
+              }, moment.duration(route.duration, 'minutes')
+              .format('h [hrs], m [min]'));
+
+            const departureTime = helpers.createEl(a, 'div');
+            helpers.createEl(departureTime, 'p', null, 'Departure time');
+            helpers.createEl(departureTime, 'h3', null, route.departure_time);
+
+            const arrivalTime = helpers.createEl(a, 'div');
+            helpers.createEl(arrivalTime, 'p', null, 'Arrival time');
+            helpers.createEl(arrivalTime, 'h3', null, route.arrival_time);
+            app.evt = new Hammer(a);
+            app.evt.on('tap', () => {
+              app.route = route;
+              app.actions.showRoute();
+            });
           });
-          const a = helpers.createEl(li, 'a', {
-            class: 'navigate-right'
-          });
-
-          const _depTime = route.departure_time.split(':');
-          const depTime = moment()
-            .set('hour', _depTime[0])
-            .set('minute', _depTime[1]);
-
-          const departsIn = helpers.createEl(a, 'div');
-          helpers.createEl(departsIn, 'p', null, 'Leaves');
-          helpers.createEl(departsIn, 'h3', null, moment(depTime)
-            .fromNow());
-
-          const duration = helpers.createEl(a, 'div');
-          helpers.createEl(duration, 'p', null, 'Journey time');
-          helpers.createEl(duration, 'h3', {
-              class: 'duration'
-            }, moment.duration(route.duration, 'minutes')
-            .format('h [hrs], m [min]'));
-
-          const departureTime = helpers.createEl(a, 'div');
-          helpers.createEl(departureTime, 'p', null, 'Departure time');
-          helpers.createEl(departureTime, 'h3', null, route.departure_time);
-
-          const arrivalTime = helpers.createEl(a, 'div');
-          helpers.createEl(arrivalTime, 'p', null, 'Arrival time');
-          helpers.createEl(arrivalTime, 'h3', null, route.arrival_time);
-          app.evt = new Hammer(a);
-          app.evt.on('tap', () => {
-            app.route = route;
-            app.actions.showRoute();
-          });
-        });
+        } else {
+          app.popUp('No routes available.', '<p>No routes are available at this time. Please try again later.</p>', null, null, 'index');
+        }
       }
     },
 
