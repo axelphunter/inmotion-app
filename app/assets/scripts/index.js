@@ -155,6 +155,7 @@ const app = {
           if (!error && result.code === 200) {
             app.actions.index(result.user);
           } else {
+            console.log(error);
             app.token = null;
             app.userId = null;
             localStorage.removeItem('api_token');
@@ -300,7 +301,7 @@ const app = {
       }
 
       function geoError(error) {
-        // console.log(error);
+        console.log(error);
       }
 
       navigator.geolocation.watchPosition(geoSuccess, geoError, {
@@ -396,6 +397,8 @@ const app = {
                         app.actions.showLocation(val.place_id);
                       });
                     });
+                  } else {
+                    console.log(error);
                   }
                 });
             } else {
@@ -407,12 +410,15 @@ const app = {
 
       function geoError(error) {
         CheckGPS.check(() => {
-            // console.log('something wrong with GPS');
+            console.log('something wrong with GPS');
           },
           () => {
             app.showLoader(false);
             app.popUp(null, '<p>INMOTION relies on using your location to show you great routes to your destination. In order to do this we ask for permission to use your location services.</p><ol><li data-type="settings">1. Go to settings.</li><li data-type="privacy">2. Tap Privacy.</li><li data-type="location-services">3. Tap Location Services.</li><li data-type="turn-on">4. Set inmotion to On.</li></ol>', null, 'Got it', 'open-settings');
           });
+        if (error) {
+          console.log(error);
+        }
       }
       navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
         timeout: 2000,
@@ -599,6 +605,7 @@ const app = {
               'data-action': 'index'
             }, 'Nope, search again');
           } else {
+            console.log(error);
             app.actions.index();
           }
           app.showLoader(false);
@@ -608,7 +615,7 @@ const app = {
     queryResults(searchQuery) {
       const modes = JSON.parse(app.transportPreference)
         .join('-');
-      app.searchQuery = searchQuery || `${app.apiUrl}/api/routes?from_lng=${app.location.lng}&from_lat=${app.location.lat}&to_lng=${app.destinationLng}&to_lat=${app.destinationLat}&modes=${modes}&ymd=${moment().format('YYYY-MM-DD')}&time=${moment().add(2, 'minutes').format('HH:mm')}`;
+      app.searchQuery = searchQuery || `${app.apiUrl}/api/routes?from_lng=${app.location.lng}&from_lat=${app.location.lat}&to_lng=${app.destinationLng}&to_lat=${app.destinationLat}&modes=${modes}&ymd=${moment().tz('Europe/London').format('YYYY-MM-DD')}&time=${moment().tz('Europe/London').add(1, 'minute').format('HH:mm')}`;
       promise.get(app.searchQuery, null, {
           'x-access-token': app.token
         })
@@ -617,6 +624,8 @@ const app = {
             console.log(results);
             app.searchResults = JSON.parse(results);
             app.actions.resultList(app.searchResults);
+          } else {
+            console.log(error);
           }
         });
     },
@@ -641,12 +650,14 @@ const app = {
 
             const _depTime = route.departure_time.split(':');
             const depTime = moment()
+              .tz('Europe/London')
               .set('hour', _depTime[0])
               .set('minute', _depTime[1]);
 
             const departsIn = helpers.createEl(a, 'div');
             helpers.createEl(departsIn, 'p', null, 'Leaves');
             helpers.createEl(departsIn, 'h3', null, moment(depTime)
+              .tz('Europe/London')
               .fromNow());
 
             const duration = helpers.createEl(a, 'div');
@@ -754,6 +765,11 @@ const app = {
           }
           if (this.value.length === 11) {
             submit.disabled = false;
+            app.evt = new Hammer(submit);
+            app.evt.on('tap', () => {
+              app.showLoader(true);
+              app.actions.validate();
+            });
           }
         };
       }
@@ -799,6 +815,11 @@ const app = {
           }
           if (this.value.length === 6) {
             submit.disabled = false;
+            app.evt = new Hammer(submit);
+            app.evt.on('tap', () => {
+              app.showLoader(true);
+              app.actions.checkValidation();
+            });
           }
         };
       }
@@ -819,6 +840,7 @@ const app = {
               localStorage.setItem('api_token', app.token);
               app.actions.index();
             } else {
+              console.log(error);
               app.popUp('Oops, something went wrong', '<p>The verification code that you have entered is incorrect. Please check the number and try again.</p>');
               app.actions.verify();
             }

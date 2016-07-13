@@ -139,7 +139,7 @@
   <!-- Search partial -->
   <script id="search-partial" type="text/x-handlebars-template">
     <section class="search">
-      <span class="icon icon-search"></span><input type="text" id="searchInput" placeholder="Where are you going?" autofocus><span id="clearsearchinput" class="icon icon-close"></span>
+      <span class="icon icon-search"></span><input type="text" id="searchInput" placeholder="Where are you going?"><span id="clearsearchinput" class="icon icon-close"></span>
     </section>
   </script>
 
@@ -176,7 +176,7 @@
   <script id="signup-template" type="text/x-handlebars-template">
     <h3>Welcome to</h3>
     <img src="img/logo-light.png" class="logo"/>
-    <form data-action="validate">
+    <form>
         <label for="phonenumber">
             <input type="tel" name="telephone" id="phonenumber" placeholder="Phone number"/>
         </label>
@@ -200,7 +200,7 @@
   <!-- verifiy template -->
   <script id="verify-template" type="text/x-handlebars-template">
     <h3>A verification code has been sent to you by text message.</h3>
-    <form data-action="checkValidation">
+    <form>
         <label for="verificationCode">
             <input type="tel" name="verificationCode" id="verificationCode" placeholder="Verification Code"/>
         </label>
