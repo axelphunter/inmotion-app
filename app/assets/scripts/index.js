@@ -615,7 +615,7 @@ const app = {
     queryResults(searchQuery) {
       const modes = JSON.parse(app.transportPreference)
         .join('-');
-      app.searchQuery = searchQuery || `${app.apiUrl}/api/routes?from_lng=${app.location.lng}&from_lat=${app.location.lat}&to_lng=${app.destinationLng}&to_lat=${app.destinationLat}&modes=${modes}&ymd=${moment().tz('Europe/London').format('YYYY-MM-DD')}&time=${moment().tz('Europe/London').add(1, 'minute').format('HH:mm')}`;
+      app.searchQuery = searchQuery || `${app.apiUrl}/api/routes?from_lng=${app.location.lng}&from_lat=${app.location.lat}&to_lng=${app.destinationLng}&to_lat=${app.destinationLat}&modes=${modes}`;
       promise.get(app.searchQuery, null, {
           'x-access-token': app.token
         })
@@ -681,7 +681,7 @@ const app = {
             });
           });
         } else {
-          app.popUp('No routes available.', '<p>No routes are available at this time. Please try again later.</p>', null, null, 'index');
+          app.popUp('Whoops', '<p>At appears that there are no routes available at this time. Please try again later.</p>', null, null, 'index');
         }
       }
     },
