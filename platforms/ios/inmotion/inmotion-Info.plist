@@ -43,8 +43,6 @@
     </dict>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string/>
-    <key>NSMainNibFile</key>
-    <string/>
     <key>NSMainNibFile~ipad</key>
     <string/>
     <key>UIRequiresFullScreen</key>

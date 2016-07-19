@@ -276,6 +276,7 @@
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = U857B82DYS;
 						DevelopmentTeamName = "Axel Hunter";
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -383,6 +384,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -394,6 +396,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ragnaroksolutions.inmotion;
 				PRODUCT_NAME = inmotion;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -406,6 +409,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "inmotion/inmotion-Prefix.pch";
@@ -414,6 +418,7 @@
 				INFOPLIST_FILE = "inmotion/inmotion-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ragnaroksolutions.inmotion;
 				PRODUCT_NAME = inmotion;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
