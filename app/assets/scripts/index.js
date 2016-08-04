@@ -411,6 +411,8 @@ const app = {
       function geoError(error) {
         CheckGPS.check(() => {
             console.log('something wrong with GPS');
+            app.showLoader(false);
+            app.popUp(null, '<p>We were unable te retrieve your location. INMOTION relies on using your location to show you great routes to your destination.</p><p>Please check your network and GPS connection.</p>', null, 'Got it');
           },
           () => {
             app.showLoader(false);

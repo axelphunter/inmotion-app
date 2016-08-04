@@ -17,7 +17,8 @@
     "google": 1,
     "moment": 1,
     "Handlebars": 1,
-    "Connection": 1
+    "Connection": 1,
+    "CheckGPS": 1,
   },
   "rules": {
     "comma-dangle": ["error", "never"],
