@@ -246,8 +246,8 @@ const app = {
 
   eventDelegate(ev) {
     const e = ev || event;
-    const el = e.target || e.srcElement;
-    let action = el.getAttribute('data-action') || el.parentElement.getAttribute('data-action');
+    const el = e.srcEvent.target || e.srcEvent.srcElement || e.target || e.srcElement;
+    let dataAction = el.getAttribute('data-action') || el.parentElement.getAttribute('data-action');
     const href = el.getAttribute('data-href');
     if (el.classList.contains('active') || el.parentElement.classList.contains('active')) {
       return;
@@ -262,12 +262,12 @@ const app = {
         {
           if (el.getAttribute('type') === 'submit' && el.disabled !== true) {
             helpers.cancelEvent(e);
-            action = el.parentElement.getAttribute('data-action');
           }
-          if (action) {
-            if (app.actions[action]) {
+          if (dataAction) {
+            console.log(dataAction);
+            if (app.actions[dataAction]) {
               app.showLoader(true);
-              app.actions[action].call(el);
+              app.actions[dataAction].call(el);
             }
           }
           if (el.getAttribute('data-transport-preference') || el.parentElement.getAttribute('data-transport-preference')) {
@@ -634,6 +634,7 @@ const app = {
 
     resultList(searchResults) {
       const results = searchResults || app.searchResults;
+      console.log(JSON.stringify(results));
       if (app.renderView('results', false, null, 'results')) {
         app.evt = new Hammer(document.querySelector('.icon-left-nav'));
         app.evt.on('tap', () => {
@@ -641,7 +642,7 @@ const app = {
         });
         app.showLoader(false);
         const routeResults = document.getElementById('routeResults');
-        if (results.routes.length > 0) {
+        if (results.routes && results.routes.length > 0) {
           results.routes.forEach((route) => {
             const li = helpers.createEl(routeResults, 'li', {
               class: 'table-view-cell'
@@ -689,7 +690,11 @@ const app = {
             });
           });
         } else {
-          app.popUp('Whoops', '<p>At appears that there are no routes available at this time. Please try again later.</p>', null, null, 'index');
+          if (results.identification.from_options.error) {
+            app.popUp('Sorry!', "<p>It appears that INMOTION isn't currently available in your location or country. We hope to bring you support as soon as possible!</p>", null, null, 'index');
+          } else {
+            app.popUp('Whoops', '<p>At appears that there are no routes available for your location at this time. Please try again later.</p>', null, null, 'index');
+          }
         }
       }
     },
@@ -783,6 +788,13 @@ const app = {
       }
     },
 
+    useGuestAccount() {
+      console.log('Setting up guest account');
+      app.token = 8008135;
+      localStorage.setItem('api_token', app.token);
+      app.actions.verify(true);
+    },
+
     validate() {
       app.telephoneNumber = ((document.querySelector('input#phonenumber')) ? document.querySelector('input#phonenumber')
         .value : app.telephoneNumber);
@@ -792,9 +804,7 @@ const app = {
       }
       if (app.telephoneNumber.length === 11) {
         if (app.telephoneNumber === '12399999999') {
-          app.token = 8008135;
-          localStorage.setItem('api_token', app.token);
-          app.actions.verify(true);
+          app.actions.useGuestAccount();
           return;
         }
         promise.post(`${app.apiUrl}/api/register`, {
