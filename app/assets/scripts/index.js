@@ -247,7 +247,7 @@ const app = {
   eventDelegate(ev) {
     const e = ev || event;
     const el = e.srcEvent.target || e.srcEvent.srcElement || e.target || e.srcElement;
-    let dataAction = el.getAttribute('data-action') || el.parentElement.getAttribute('data-action');
+    const dataAction = el.getAttribute('data-action') || el.parentElement.getAttribute('data-action');
     const href = el.getAttribute('data-href');
     if (el.classList.contains('active') || el.parentElement.classList.contains('active')) {
       return;
@@ -266,7 +266,7 @@ const app = {
           if (dataAction) {
             console.log(dataAction);
             if (app.actions[dataAction]) {
-              app.showLoader(true);
+              // app.showLoader(true);
               app.actions[dataAction].call(el);
             }
           }
@@ -294,6 +294,19 @@ const app = {
   },
 
   actions: {
+    facebookLogin() {
+
+      var fbLoginSuccess = function(userData) {
+        console.log("UserInfo: ", userData);
+      }
+
+      facebookConnectPlugin.login(["public_profile"], fbLoginSuccess,
+        function loginError(error) {
+          console.error(error)
+        }
+      );
+    },
+
     watchLocation() {
       function geoSuccess(position) {
         app.location.lat = position.coords.latitude;

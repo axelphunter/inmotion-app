@@ -10,6 +10,11 @@
         "com.phonegap.plugins.nativesettingsopener": {
             "PACKAGE_NAME": "com.ragnaroksolutions.inmotion"
         },
+        "cordova-plugin-facebook4": {
+            "APP_ID": "130511570750630",
+            "APP_NAME": "inmo­t­i­o­n­-ios",
+            "PACKAGE_NAME": "com.ragnaroksolutions.inmotion"
+        },
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.ragnaroksolutions.inmotion"
         },

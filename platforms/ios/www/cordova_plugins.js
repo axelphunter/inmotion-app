@@ -1,56 +1,56 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/com.phonegap.plugins.nativesettingsopener/www/settings.js",
         "id": "com.phonegap.plugins.nativesettingsopener.Settings",
+        "file": "plugins/com.phonegap.plugins.nativesettingsopener/www/settings.js",
         "pluginId": "com.phonegap.plugins.nativesettingsopener",
         "clobbers": [
             "cordova.plugins.settings"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-geolocation/www/Coordinates.js",
+        "id": "cordova-plugin-facebook4.FacebookConnectPlugin",
+        "file": "plugins/cordova-plugin-facebook4/www/facebook-native.js",
+        "pluginId": "cordova-plugin-facebook4",
+        "clobbers": [
+            "facebookConnectPlugin"
+        ]
+    },
+    {
         "id": "cordova-plugin-geolocation.Coordinates",
+        "file": "plugins/cordova-plugin-geolocation/www/Coordinates.js",
         "pluginId": "cordova-plugin-geolocation",
         "clobbers": [
             "Coordinates"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
         "id": "cordova-plugin-geolocation.PositionError",
+        "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
         "pluginId": "cordova-plugin-geolocation",
         "clobbers": [
             "PositionError"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-geolocation/www/Position.js",
         "id": "cordova-plugin-geolocation.Position",
+        "file": "plugins/cordova-plugin-geolocation/www/Position.js",
         "pluginId": "cordova-plugin-geolocation",
         "clobbers": [
             "Position"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-geolocation/www/geolocation.js",
         "id": "cordova-plugin-geolocation.geolocation",
+        "file": "plugins/cordova-plugin-geolocation/www/geolocation.js",
         "pluginId": "cordova-plugin-geolocation",
         "clobbers": [
             "navigator.geolocation"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-fastrde-checkgps/www/CheckGPS.js",
-        "id": "cordova-plugin-fastrde-checkgps.CheckGPS",
-        "pluginId": "cordova-plugin-fastrde-checkgps",
-        "clobbers": [
-            "CheckGPS"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
         "id": "cordova-plugin-inappbrowser.inappbrowser",
+        "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
         "pluginId": "cordova-plugin-inappbrowser",
         "clobbers": [
             "cordova.InAppBrowser.open",
@@ -58,8 +58,8 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-network-information/www/network.js",
         "id": "cordova-plugin-network-information.network",
+        "file": "plugins/cordova-plugin-network-information/www/network.js",
         "pluginId": "cordova-plugin-network-information",
         "clobbers": [
             "navigator.connection",
@@ -67,32 +67,40 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-network-information/www/Connection.js",
         "id": "cordova-plugin-network-information.Connection",
+        "file": "plugins/cordova-plugin-network-information/www/Connection.js",
         "pluginId": "cordova-plugin-network-information",
         "clobbers": [
             "Connection"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
         "id": "cordova-plugin-splashscreen.SplashScreen",
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
         "pluginId": "cordova-plugin-splashscreen",
         "clobbers": [
             "navigator.splashscreen"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
         "id": "cordova-plugin-statusbar.statusbar",
+        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
         "pluginId": "cordova-plugin-statusbar",
         "clobbers": [
             "window.StatusBar"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+        "id": "cordova-plugin-fastrde-checkgps.CheckGPS",
+        "file": "plugins/cordova-plugin-fastrde-checkgps/www/CheckGPS.js",
+        "pluginId": "cordova-plugin-fastrde-checkgps",
+        "clobbers": [
+            "CheckGPS"
+        ]
+    },
+    {
         "id": "cordova-plugin-x-socialsharing.SocialSharing",
+        "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
         "pluginId": "cordova-plugin-x-socialsharing",
         "clobbers": [
             "window.plugins.socialsharing"
@@ -103,14 +111,15 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "com.phonegap.plugins.nativesettingsopener": "1.2",
+    "cordova-plugin-facebook4": "1.7.4",
     "cordova-plugin-geolocation": "2.1.0",
-    "cordova-plugin-fastrde-checkgps": "0.9.9",
     "cordova-plugin-inappbrowser": "1.4.0",
     "cordova-plugin-network-information": "1.2.1",
     "cordova-plugin-splashscreen": "3.2.2",
     "cordova-plugin-statusbar": "2.1.3",
     "cordova-plugin-whitelist": "1.2.1",
+    "cordova-plugin-fastrde-checkgps": "0.9.9",
     "cordova-plugin-x-socialsharing": "5.1.1"
-}
+};
 // BOTTOM OF METADATA
 });

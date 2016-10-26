@@ -1,40 +1,46 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-    <!--<meta http-equiv="Content-Security-Policy" content="script-src 'self' http://xxxx 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+  <!--<meta http-equiv="Content-Security-Policy" content="script-src 'self' http://xxxx 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta charset="utf-8" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
 
-    <title>INMOTION</title>
+  <title>INMOTION</title>
 
-    <!-- styles -->
-    <!-- build:css css/styles.min.css -->
-    <link rel="stylesheet" href="css/reset.css" />
-    <link rel="stylesheet" href="/bower_components/ratchet/dist/css/ratchet.css" />
-    <link rel="stylesheet" href="/bower_components/ratchet/dist/css/ratchet-theme-ios.css" />
-    <link rel="stylesheet" href="css/styles.css" />
-    <!-- endbuild -->
+  <!-- styles -->
+  <!-- build:css css/styles.min.css -->
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="/bower_components/ratchet/dist/css/ratchet.css" />
+  <link rel="stylesheet" href="/bower_components/ratchet/dist/css/ratchet-theme-ios.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- endbuild -->
 
 </head>
+
 <body>
   <!-- Handlebars partials -->
   <!-- Header partial -->
   <script id="header-partial" type="text/x-handlebars-template">
-    <header><div data-action="opensidemenu"></div><div class="logo"></div><div data-action="index"></div></header>
+    <header>
+      <div data-action="opensidemenu"></div>
+      <div class="logo"></div>
+      <div data-action="index"></div>
+    </header>
   </script>
   <!-- Notifier partial -->
   <script id="notifier-partial" type="text/x-handlebars-template">
     {{#if messages}}
-        <div class="notifiers" >
-            <ul>
-                {{#each messages}}
-                    <li>{{this}}</li>
-                {{/each}}
-            </ul>
-        </div>
+    <div class="notifiers">
+      <ul>
+        {{#each messages}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
     {{/if}}
   </script>
   <!-- Profile Modal Partial -->
@@ -59,7 +65,7 @@
       <div class="content">
         <ul class="table-view">
           <li class="table-view-divider">
-              Transport preferences
+            Transport preferences
           </li>
           <li class="table-view-cell">
             Bus
@@ -122,24 +128,24 @@
   </script>
   <!-- Footer Nav Partial -->
   <script id="footer-nav-partial" type="text/x-handlebars-template">
-  <nav class="bar bar-tab">
-    <!-- <a class="tab-item" href="#profileModal">
+    <nav class="bar bar-tab">
+      <!-- <a class="tab-item" href="#profileModal">
       <span class="icon icon-person"></span>
       <span class="tab-label">Profile</span>
     </a> -->
-    <!-- <a class="tab-item" href="#">
+      <!-- <a class="tab-item" href="#">
       <span class="icon icon-star-filled"></span>
       <span class="tab-label">Favorites</span>
     </a> -->
-    <a class="tab-item home" data-action="index">
-      <span class="icon icon-home"></span>
-      <span class="tab-label">Home</span>
-    </a>
-    <a class="tab-item" href="#settingsModal">
-      <span class="icon icon-gear"></span>
-      <span class="tab-label">Settings</span>
-    </a>
-  </nav>
+      <a class="tab-item home" data-action="index">
+        <span class="icon icon-home"></span>
+        <span class="tab-label">Home</span>
+      </a>
+      <a class="tab-item" href="#settingsModal">
+        <span class="icon icon-gear"></span>
+        <span class="tab-label">Settings</span>
+      </a>
+    </nav>
   </script>
   <!-- Search partial -->
   <script id="search-partial" type="text/x-handlebars-template">
@@ -160,9 +166,7 @@
     <div class="content">
       <ul class="table-view" id="searchResults"></ul>
     </div>
-    {{> footerNav}}
-    {{> profileModal}}
-    {{> settingsModal}}
+    {{> footerNav}} {{> profileModal}} {{> settingsModal}}
   </script>
   <!-- Results page template -->
   <script id="results-template" type="text/x-handlebars-template">
@@ -173,20 +177,19 @@
     <div class="content">
       <ul class="table-view route-results" id="routeResults"></ul>
     </div>
-    {{> footerNav}}
-    {{> profileModal}}
-    {{> settingsModal}}
+    {{> footerNav}} {{> profileModal}} {{> settingsModal}}
   </script>
   <!-- Signup page template  -->
   <script id="signup-template" type="text/x-handlebars-template">
     <h3>Welcome to</h3>
-    <img src="img/logo-light.png" class="logo"/>
+    <img src="img/logo-light.png" class="logo" />
+    <button data-action="facebookLogin" class="btn btn-facebook btn-block">Log in with Facebook</button>
+    <p>Or enter your phone number to create a secure account.</p>
     <form>
-        <label for="phonenumber">
-            <input type="tel" name="telephone" id="phonenumber" placeholder="Phone number"/>
-        </label>
-        <p>Enter your phone number to create a secure account.</p>
-        <input type="submit" value="Next" class="btn btn-negative btn-block"/>
+      <label for="phonenumber">
+          <input type="tel" name="telephone" id="phonenumber" placeholder="Phone number"/>
+      </label>
+      <input type="submit" value="Next" class="btn btn-negative btn-block" />
     </form>
     <nav class="bar bar-tab">
       <a class="tab-item" data-action="useGuestAccount">
@@ -198,7 +201,7 @@
   <script id="skip-template" type="text/x-handlebars-template">
     <h1>Are you sure?</h1>
     <p>By signing up, you are creating a unique and secure ID. Plus you will gain access to extra unique features and benefits.</p>
-    <img class="center-icon" src="img/icons/chat-heart.svg"/>
+    <img class="center-icon" src="img/icons/chat-heart.svg" />
     <button class="btn btn-light btn-block" data-action="signUp">Back</button>
     <a class="skip" data-action="registerguest">Skip anyway ></a>
   </script>
@@ -206,12 +209,12 @@
   <script id="verify-template" type="text/x-handlebars-template">
     <h3>A verification code has been sent to you by text message.</h3>
     <form>
-        <label for="verificationCode">
+      <label for="verificationCode">
             <input type="tel" name="verificationCode" id="verificationCode" placeholder="Verification Code"/>
         </label>
-        <input type="submit" value="Next" class="btn btn-negative btn-block"/>
-        <button class="btn btn-primary btn-block btn-outlined" data-action="validate">Re-send Validation Code</button>
-        <button class="btn btn-negative btn-block" data-action="signUp">Re-enter telephone number</button>
+      <input type="submit" value="Next" class="btn btn-negative btn-block" />
+      <button class="btn btn-primary btn-block btn-outlined" data-action="validate">Re-send Validation Code</button>
+      <button class="btn btn-negative btn-block" data-action="signUp">Re-enter telephone number</button>
     </form>
     <!-- <nav class="bar bar-tab" data-action="signUp">
       <a class="tab-item active" >

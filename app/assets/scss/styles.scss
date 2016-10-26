@@ -50,6 +50,12 @@ h4 {
     border: 1px solid $secondary-colour;
   }
 
+  &.btn-facebook {
+    background-color: #3B5998;
+    border: 1px solid #3B5998;
+    color: #fff;
+  }
+
   &.btn-negative {
     background-color: $primary-colour;
     border: 1px solid $primary-colour;

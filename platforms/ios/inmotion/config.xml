@@ -18,11 +18,18 @@
     <feature name="NativeSettings">
         <param name="ios-package" value="NativeSettings" />
     </feature>
+    <feature name="FacebookConnectPlugin">
+        <param name="ios-package" value="FacebookConnectPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <plugin name="FacebookConnectPlugin" value="FacebookConnectPlugin" />
+    <access origin="https://m.facebook.com" />
+    <access origin="https://graph.facebook.com" />
+    <access origin="https://api.facebook.com" />
+    <access origin="https://*.fbcdn.net" />
+    <access origin="https://*.akamaihd.net" />
     <feature name="Geolocation">
         <param name="ios-package" value="CDVLocation" />
-    </feature>
-    <feature name="CheckGPS">
-        <param name="ios-package" value="CheckGPS" />
     </feature>
     <feature name="InAppBrowser">
         <param name="ios-package" value="CDVInAppBrowser" />
@@ -37,6 +44,9 @@
     <feature name="StatusBar">
         <param name="ios-package" value="CDVStatusBar" />
         <param name="onload" value="true" />
+    </feature>
+    <feature name="CheckGPS">
+        <param name="ios-package" value="CheckGPS" />
     </feature>
     <feature name="SocialSharing">
         <param name="ios-package" value="SocialSharing" />
@@ -61,16 +71,6 @@
     <allow-intent href="geo:*" />
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
-    <splash height="480" src="res/screen/ios/Default~iphone.png" width="320" />
-    <splash height="960" src="res/screen/ios/Default@2x~iphone.png" width="640" />
-    <splash height="1024" src="res/screen/ios/Default-Portrait~ipad.png" width="768" />
-    <splash height="2048" src="res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" />
-    <splash height="768" src="res/screen/ios/Default-Landscape~ipad.png" width="1024" />
-    <splash height="1536" src="res/screen/ios/Default-Landscape@2x~ipad.png" width="2048" />
-    <splash height="1136" src="res/screen/ios/Default-568h@2x~iphone.png" width="640" />
-    <splash height="1334" src="res/screen/ios/Default-667h.png" width="750" />
-    <splash height="2208" src="res/screen/ios/Default-736h.png" width="1242" />
-    <splash height="1242" src="res/screen/ios/Default-Landscape-736h.png" width="2208" />
     <icon height="180" src="res/icons/ios/icon-60@3x.png" width="180" />
     <icon height="120" src="res/icons/ios/icon-60@2x.png" width="120" />
     <icon height="76" src="res/icons/ios/icon-76.png" width="76" />

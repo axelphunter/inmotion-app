@@ -19,6 +19,7 @@
     "Handlebars": 1,
     "Connection": 1,
     "CheckGPS": 1,
+    "facebookConnectPlugin": 1
   },
   "rules": {
     "comma-dangle": ["error", "never"],
